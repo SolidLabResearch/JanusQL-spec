@@ -1,0 +1,11 @@
+<pre class='metadata'>
+Title: Bikeshed Template
+Shortname: bikeshed-template
+Level: none
+Status: LD
+Editor: Pieter Heyvaert, Ghent University - imec http://idlab.ugent.be/, pieter.heyvaert@ugent.be
+Abstract: This is a template for using Bikeshed to write specs. It includes some KNoWS-specific configurations.
+Markup Shorthands: markdown yes, css no
+Canonical URL: _ORCHESTRATOR_CURRENT_BUILD_FULL_LINK_
+Previous Version: _ORCHESTRATOR_PREVIOUS_BUILD_FULL_LINK_
+</pre>
