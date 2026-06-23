@@ -1,13 +1,15 @@
-# Bikeshed template
+# Janus-QL Specification
 
-This is a template for creating a spec using [Bikeshed](https://github.com/speced/bikeshed/)
-together with a config to build and publish the spec by using the KNoWS Spec Platform.
+This repository contains the source files for the Janus-QL specification.
 
-## Create repo
+Janus-QL is a query language for expressing queries over live RDF streams and historical RDF event logs in a unified query model. The language is developed alongside Janus, which serves as a reference implementation.
 
-You have to create a new repo based on this repo.
-You can do this via a fork or 
-by manually copying the files in this repo.
+## Repository structure
+
+* `spec.bs`: main Bikeshed source file for the specification
+* `README.md`: repository overview
+* `CHANGELOG.md`: changes between specification versions
+* `LICENSE`: license information
 
 ## Install Bikeshed
 
@@ -26,10 +28,6 @@ You build a Docker image locally by executing the following steps:
    ```shell
    docker build --tag=bikeshed:latest .
    ```
-
-## Edit spec
-
-You edit spec by updating the file `spec.bs`.
 
 ## Build
 
@@ -58,7 +56,10 @@ Add your updated config file with a meaningful name to
 [this folder](https://gitlab.ilabt.imec.be/KNoWS/spec-platform/pipeline/-/tree/main/configs?ref_type=heads)
 via a merge request.
 
-## Copyright and license
+## Status
 
-Bikeshed uses a default copyright and license.
-Please make sure that it fits your requirements.
+This specification is currently under development.
+
+## Related work
+
+Janus-QL builds on ideas from RDF, SPARQL, RDF Stream Processing, and historical RDF event log querying.
