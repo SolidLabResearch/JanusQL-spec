@@ -6,7 +6,9 @@ Janus-QL is a query language for expressing queries over live RDF streams and hi
 
 ## Repository structure
 
-* `spec.bs`: main Bikeshed source file for the specification
+* `spec-src/spec.bs`: main Bikeshed source file for the specification
+* `spec-src/sections/`: Bikeshed section includes
+* `spec-src/*.include`: local Bikeshed boilerplate files used by the build
 * `README.md`: repository overview
 * `CHANGELOG.md`: changes between specification versions
 * `LICENSE`: license information
@@ -34,6 +36,8 @@ You build a Docker image locally by executing the following steps:
 If you installed Bikeshed locally, execute `build.sh`.
 If you use Docker, execute `build.docker.sh`.
 You find the result in the folder `dist`.
+
+The Bikeshed source lives under `spec-src/`, so edit files there and run the build from the repository root.
 
 You have to commit and push the `dist` folder and 
 its content to your git repo.

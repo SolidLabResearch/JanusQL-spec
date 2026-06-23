@@ -1,3 +1,3 @@
 rm -rf dist
 mkdir dist
-cp logo.png dist
+cp spec-src/logo.png dist
