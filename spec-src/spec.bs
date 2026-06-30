@@ -16,7 +16,6 @@ Local Boilerplate: copyright yes
 Local Boilerplate: abstract yes
 Boilerplate: footer no
 Boilerplate: status no
-Boilerplate: stylesheet no
 Boilerplate: repository-issue-tracking off
 Canonical URL: _ORCHESTRATOR_CURRENT_BUILD_FULL_LINK_
 Previous Version: _ORCHESTRATOR_PREVIOUS_BUILD_FULL_LINK_
