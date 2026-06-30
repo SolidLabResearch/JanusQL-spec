@@ -1,0 +1,64 @@
+Examples {#examples}
+====================
+
+## Live And Historical Query With Nested Historical Subquery {#example-live-historical-nested}
+
+```sparql
+PREFIX ex: &lt;http://example.org/&gt;
+
+REGISTER RStream ex:output AS
+SELECT ?sensor ?value ?historicalAverage
+FROM NAMED WINDOW ex:liveWindow ON STREAM ex:stream [RANGE 60000 STEP 30000]
+FROM NAMED WINDOW ex:historicalWindow ON LOG ex:stream [START 0 END 86400000]
+WHERE {
+  WINDOW ex:liveWindow {
+    ?sensor ex:hasValue ?value .
+  }
+
+  {
+    SELECT ?sensor (AVG(?oldValue) AS ?historicalAverage)
+    WHERE {
+      WINDOW ex:historicalWindow {
+        ?sensor ex:hasValue ?oldValue .
+      }
+    }
+    GROUP BY ?sensor
+  }
+
+  FILTER(?value > ?historicalAverage)
+}
+```
+
+## Historical-Only Query Without `REGISTER` {#example-historical-only-without-register}
+
+```sparql
+PREFIX ex: &lt;http://example.org/&gt;
+
+SELECT ?sensor ?value
+FROM NAMED WINDOW ex:historicalWindow ON LOG ex:stream [START 0 END 86400000]
+WHERE {
+  WINDOW ex:historicalWindow {
+    ?sensor ex:hasValue ?value .
+  }
+}
+```
+
+## Historical Sliding Log Window Declaration {#example-historical-sliding-log-window}
+
+```sparql
+PREFIX ex: &lt;http://example.org/&gt;
+
+REGISTER RStream ex:output AS
+SELECT ?sensor ?value
+FROM NAMED WINDOW ex:liveWindow ON STREAM ex:stream [RANGE 60000 STEP 30000]
+FROM NAMED WINDOW ex:previousHour ON LOG ex:stream [OFFSET 86400000 RANGE 3600000 STEP 30000]
+WHERE {
+  WINDOW ex:liveWindow {
+    ?sensor ex:hasValue ?value .
+  }
+
+  WINDOW ex:previousHour {
+    ?sensor ex:hasValue ?oldValue .
+  }
+}
+```

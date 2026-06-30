@@ -1,0 +1,16 @@
+Window Blocks {#window-blocks}
+==============================
+
+A declared window is referenced inside `WHERE` by a `WINDOW &lt;name&gt; { ... }` block.
+
+Example:
+
+```sparql
+WINDOW ex:liveWindow {
+  ?sensor ex:hasValue ?value .
+}
+```
+
+A `WINDOW &lt;name&gt; { ... }` block MUST refer to a window name declared by a `FROM NAMED WINDOW` clause in the same query.
+
+The graph pattern inside a `WINDOW <name> { ... }` block is evaluated against the window selected by that declaration.

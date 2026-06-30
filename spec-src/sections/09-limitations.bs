@@ -1,0 +1,12 @@
+Limitations {#limitations}
+==========================
+
+`DEFINE BASELINE` and `USING BASELINE` are not part of the public Janus-QL specification.
+
+The implementation may still contain legacy compatibility paths and internal baseline-related names. Those implementation artifacts are non-normative and do not define the public language.
+
+Older implementation paths may still accept historical `[START ... END]` and `[OFFSET ... RANGE ... STEP ...]` forms on `ON STREAM`. This specification does not define those forms as public Janus-QL syntax. In this version, historical windows are defined only over `ON LOG`.
+
+Live-only nested subqueries and mixed live/historical nested subqueries are not part of this version of Janus-QL.
+
+This specification does not define unsupported future syntax beyond the public forms listed in this document.

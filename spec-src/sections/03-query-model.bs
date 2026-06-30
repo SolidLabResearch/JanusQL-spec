@@ -1,0 +1,25 @@
+Query Model {#query-model}
+==========================
+
+A Janus-QL query supports:
+
+* zero or more `PREFIX` declarations;
+* one top-level `SELECT` clause;
+* zero or more `FROM NAMED WINDOW` declarations;
+* one `WHERE` clause;
+* optional top-level `GROUP BY` and `HAVING` clauses; and
+* optional `REGISTER RStream <output> AS` when the query is registered as a live output stream.
+
+A Janus-QL query MUST contain exactly one top-level `SELECT` clause and exactly one top-level `WHERE` clause.
+
+A Janus-QL query MAY omit `REGISTER RStream <output> AS` when the query is executed as a historical-only query.
+
+A query that registers a live output stream SHOULD use `REGISTER RStream <output> AS`.
+
+A `FROM NAMED WINDOW` declaration introduces a window name that MAY be referenced later in the `WHERE` clause by a `WINDOW &lt;name&gt; { ... }` block.
+
+The public window declaration forms are:
+
+* `FROM NAMED WINDOW &lt;w&gt; ON STREAM &lt;s&gt; [RANGE &lt;range&gt; STEP &lt;step&gt;]`
+* `FROM NAMED WINDOW &lt;w&gt; ON LOG &lt;l&gt; [START &lt;start&gt; END &lt;end&gt;]`
+* `FROM NAMED WINDOW &lt;w&gt; ON LOG &lt;l&gt; [OFFSET &lt;offset&gt; RANGE &lt;range&gt; STEP &lt;step&gt;]`
