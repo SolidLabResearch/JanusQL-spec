@@ -1,3 +1,3 @@
 rm -rf dist
-mkdir dist
+mkdir -p dist
 cp spec-src/logo.png dist

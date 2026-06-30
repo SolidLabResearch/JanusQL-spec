@@ -21,38 +21,20 @@ Canonical URL: _ORCHESTRATOR_CURRENT_BUILD_FULL_LINK_
 Previous Version: _ORCHESTRATOR_PREVIOUS_BUILD_FULL_LINK_
 </pre>
 
-<pre class="include">
-path: sections/01-introduction.bs
-</pre>
+<pre class="include" path="sections/01-introduction.bs"></pre>
 
-<pre class="include">
-path: sections/02-conformance.bs
-</pre>
+<pre class="include" path="sections/02-conformance.bs"></pre>
 
-<pre class="include">
-path: sections/03-query-model.bs
-</pre>
+<pre class="include" path="sections/03-query-model.bs"></pre>
 
-<pre class="include">
-path: sections/04-window-declarations.bs
-</pre>
+<pre class="include" path="sections/04-window-declarations.bs"></pre>
 
-<pre class="include">
-path: sections/05-window-blocks.bs
-</pre>
+<pre class="include" path="sections/05-window-blocks.bs"></pre>
 
-<pre class="include">
-path: sections/06-historical-subqueries.bs
-</pre>
+<pre class="include" path="sections/06-historical-subqueries.bs"></pre>
 
-<pre class="include">
-path: sections/07-evaluation-semantics.bs
-</pre>
+<pre class="include" path="sections/07-evaluation-semantics.bs"></pre>
 
-<pre class="include">
-path: sections/08-examples.bs
-</pre>
+<pre class="include" path="sections/08-examples.bs"></pre>
 
-<pre class="include">
-path: sections/09-limitations.bs
-</pre>
+<pre class="include" path="sections/09-limitations.bs"></pre>
