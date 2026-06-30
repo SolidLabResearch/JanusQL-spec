@@ -1,5 +1,4 @@
-Query Model {#query-model}
-==========================
+<h2 id="query-model">Query Model</h2>
 
 A Janus-QL query supports:
 
@@ -16,10 +15,10 @@ A Janus-QL query MAY omit `REGISTER RStream <output> AS` when the query is execu
 
 A query that registers a live output stream SHOULD use `REGISTER RStream <output> AS`.
 
-A `FROM NAMED WINDOW` declaration introduces a window name that MAY be referenced later in the `WHERE` clause by a `WINDOW &lt;name&gt; { ... }` block.
+A `FROM NAMED WINDOW` declaration introduces a window name that MAY be referenced later in the `WHERE` clause by a `WINDOW <name> { ... }` block.
 
 The public window declaration forms are:
 
-* `FROM NAMED WINDOW &lt;w&gt; ON STREAM &lt;s&gt; [RANGE &lt;range&gt; STEP &lt;step&gt;]`
-* `FROM NAMED WINDOW &lt;w&gt; ON LOG &lt;l&gt; [START &lt;start&gt; END &lt;end&gt;]`
-* `FROM NAMED WINDOW &lt;w&gt; ON LOG &lt;l&gt; [OFFSET &lt;offset&gt; RANGE &lt;range&gt; STEP &lt;step&gt;]`
+* `FROM NAMED WINDOW <w> ON STREAM <s> [RANGE <range> STEP <step>]`
+* `FROM NAMED WINDOW <w> ON LOG <l> [START <start> END <end>]`
+* `FROM NAMED WINDOW <w> ON LOG <l> [OFFSET <offset> RANGE <range> STEP <step>]`

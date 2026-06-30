@@ -1,5 +1,4 @@
-Introduction {#introduction}
-=============================
+<h2 id="introduction">Introduction</h2>
 
 Janus-QL is a query language for combining live stream windows with historical log windows in a single query.
 
@@ -9,7 +8,7 @@ This specification describes Janus-QL using:
 
 * live windows over `ON STREAM`;
 * historical log windows over `ON LOG`;
-* `WINDOW &lt;name&gt; { ... }` blocks inside `WHERE`; and
+* `WINDOW <name> { ... }` blocks inside `WHERE`; and
 * historical-only nested subqueries inside an outer `WHERE`.
 
 This specification does not define legacy baseline syntax as part of the public language.

@@ -1,6 +1,6 @@
 <pre class='metadata'>
 Title: Janus-QL Specification
-Shortname: janus-ql-spec
+Shortname: janus-ql-specification
 Level: none
 Status: LD
 Editor: Kushagra Singh Bisen, Ghent University - imec http://idlab.ugent.be/, kushagrasingh.bisen@ugent.be
@@ -16,9 +16,8 @@ Local Boilerplate: copyright yes
 Local Boilerplate: abstract yes
 Boilerplate: footer no
 Boilerplate: status no
-Boilerplate: copyright no
-Boilerplate: abstract no
 Boilerplate: stylesheet no
+Boilerplate: repository-issue-tracking off
 Canonical URL: _ORCHESTRATOR_CURRENT_BUILD_FULL_LINK_
 Previous Version: _ORCHESTRATOR_PREVIOUS_BUILD_FULL_LINK_
 </pre>

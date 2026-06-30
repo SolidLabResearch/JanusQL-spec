@@ -1,37 +1,36 @@
-Window Declarations {#window-declarations}
-==========================================
+<h2 id="window-declarations">Window Declarations</h2>
 
 Janus-QL defines the following public window declaration forms.
 
-## Live Stream Window {#live-stream-window}
+<h3 id="live-stream-window">Live Stream Window</h3>
 
 The following form declares a live stream window:
 
 ```sparql
-FROM NAMED WINDOW &lt;w&gt; ON STREAM &lt;s&gt; [RANGE &lt;range&gt; STEP &lt;step&gt;]
+FROM NAMED WINDOW <w> ON STREAM <s> [RANGE <range> STEP <step>]
 ```
 
-A processor MUST treat this form as a live window over stream `&lt;s&gt;`.
+A processor MUST treat this form as a live window over stream `<s>`.
 
-## Historical Fixed Log Window {#historical-fixed-log-window}
+<h3 id="historical-fixed-log-window">Historical Fixed Log Window</h3>
 
 The following form declares a fixed historical log window:
 
 ```sparql
-FROM NAMED WINDOW &lt;w&gt; ON LOG &lt;l&gt; [START &lt;start&gt; END &lt;end&gt;]
+FROM NAMED WINDOW <w> ON LOG <l> [START <start> END <end>]
 ```
 
-A processor MUST treat this form as a historical window over log `&lt;l&gt;` with explicit start and end bounds.
+A processor MUST treat this form as a historical window over log `<l>` with explicit start and end bounds.
 
-## Historical Sliding Log Window {#historical-sliding-log-window}
+<h3 id="historical-sliding-log-window">Historical Sliding Log Window</h3>
 
 The following form declares a sliding historical log window:
 
 ```sparql
-FROM NAMED WINDOW &lt;w&gt; ON LOG &lt;l&gt; [OFFSET &lt;offset&gt; RANGE &lt;range&gt; STEP &lt;step&gt;]
+FROM NAMED WINDOW <w> ON LOG <l> [OFFSET <offset> RANGE <range> STEP <step>]
 ```
 
-A processor MUST treat this form as a historical window over log `&lt;l&gt;` that is resolved relative to live evaluation time.
+A processor MUST treat this form as a historical window over log `<l>` that is resolved relative to live evaluation time.
 
 <aside class="note">
   Janus-QL v0.1 documents the current implementation behavior: `[T - OFFSET, T - OFFSET + RANGE]`.

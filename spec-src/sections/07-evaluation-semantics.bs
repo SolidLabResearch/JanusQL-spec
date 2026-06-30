@@ -1,5 +1,4 @@
-Evaluation Semantics {#evaluation-semantics}
-============================================
+<h2 id="evaluation-semantics">Evaluation Semantics</h2>
 
 Live windows are evaluated relative to the live stream schedule associated with the registered or executing query.
 
@@ -10,7 +9,7 @@ Historical sliding log windows are resolved relative to live evaluation time `T`
 For a declaration of the form:
 
 ```sparql
-FROM NAMED WINDOW &lt;w&gt; ON LOG &lt;l&gt; [OFFSET &lt;offset&gt; RANGE &lt;range&gt; STEP &lt;step&gt;]
+FROM NAMED WINDOW <w> ON LOG <l> [OFFSET <offset> RANGE <range> STEP <step>]
 ```
 
 the current Janus implementation resolves the interval as `[T - OFFSET, T - OFFSET + RANGE]`.

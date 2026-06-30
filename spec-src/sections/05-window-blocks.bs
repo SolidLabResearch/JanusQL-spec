@@ -1,7 +1,6 @@
-Window Blocks {#window-blocks}
-==============================
+<h2 id="window-blocks">Window Blocks</h2>
 
-A declared window is referenced inside `WHERE` by a `WINDOW &lt;name&gt; { ... }` block.
+A declared window is referenced inside `WHERE` by a `WINDOW <name> { ... }` block.
 
 Example:
 
@@ -11,6 +10,6 @@ WINDOW ex:liveWindow {
 }
 ```
 
-A `WINDOW &lt;name&gt; { ... }` block MUST refer to a window name declared by a `FROM NAMED WINDOW` clause in the same query.
+A `WINDOW <name> { ... }` block MUST refer to a window name declared by a `FROM NAMED WINDOW` clause in the same query.
 
 The graph pattern inside a `WINDOW <name> { ... }` block is evaluated against the window selected by that declaration.

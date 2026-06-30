@@ -1,5 +1,4 @@
-Historical Subqueries {#historical-subqueries}
-==============================================
+<h2 id="historical-subqueries">Historical Subqueries</h2>
 
 A nested `SELECT` block MAY appear inside the outer `WHERE` clause.
 

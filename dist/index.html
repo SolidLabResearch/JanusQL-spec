@@ -5,7 +5,7 @@
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="Bikeshed version caf0aeb39, updated Mon Dec 15 22:51:46 2025 +0000" name="generator">
   <link href="_ORCHESTRATOR_CURRENT_BUILD_FULL_LINK_" rel="canonical">
-  <meta content="1145f9e1a48554b73a99aa6e92c08ee4b53352c0" name="revision">
+  <meta content="81dee4d8dbe5e0a03985c56d1da4ea442de82680" name="revision">
   <meta content="dark light" name="color-scheme">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
@@ -539,14 +539,25 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <dl>
      <dt>Previous Versions:
      <dd><a href="_ORCHESTRATOR_PREVIOUS_BUILD_FULL_LINK_" rel="prev">_ORCHESTRATOR_PREVIOUS_BUILD_FULL_LINK_</a>
-     <dt>Issue Tracking:
-     <dd><a href="https://github.com/argahsuknesib/JanusQL-spec/issues/">GitHub</a>
      <dt class="editor">Editor:
      <dd class="editor h-card p-author vcard"><a class="email fn p-name u-email" href="mailto:kushagrasingh.bisen@ugent.be">Kushagra Singh Bisen</a> (<a class="org p-org" href="http://idlab.ugent.be/">Ghent University - imec</a>)
     </dl>
    </div>
    <div data-fill-with="warning"></div>
+   <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" height="15" src="https://licensebuttons.net/p/zero/1.0/80x15.png" width="80"></a>
+To the extent possible under law, the editors have waived all copyright
+and related or neighboring rights to this work.
+In addition, as of 30 June 2026,
+the editors have made this specification available under the
+<a href="https://www.openwebfoundation.org/the-agreements/the-owf-1-0-agreements-granted-claims/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
+which is available at https://www.openwebfoundation.org/the-agreements/the-owf-1-0-agreements-granted-claims/owfa-1-0.
+Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document.
+</p>
    <hr title="Separator for header">
+  </div>
+  <div class="p-summary" data-fill-with="abstract">
+   <h2 class="heading no-num no-ref no-toc settled" id="abstract"><span class="content">Abstract</span></h2>
+   <p>This specification defines the first public Janus-QL query language contract implemented by the current validated Janus system.</p>
   </div>
   <div data-fill-with="at-risk"></div>
   <nav data-fill-with="table-of-contents" id="toc">
@@ -558,9 +569,9 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <li>
      <a href="#window-declarations"><span class="secno">4</span> <span class="content">Window Declarations</span></a>
      <ol class="toc">
-      <li><a href="#live-stream-window"><span class="secno">4.1</span> <span class="content">Live Stream Window {#live-stream-window}</span></a>
-      <li><a href="#historical-fixed-log-window"><span class="secno">4.2</span> <span class="content">Historical Fixed Log Window {#historical-fixed-log-window}</span></a>
-      <li><a href="#historical-sliding-log-window"><span class="secno">4.3</span> <span class="content">Historical Sliding Log Window {#historical-sliding-log-window}</span></a>
+      <li><a href="#live-stream-window"><span class="secno">4.1</span> <span class="content">Live Stream Window</span></a>
+      <li><a href="#historical-fixed-log-window"><span class="secno">4.2</span> <span class="content">Historical Fixed Log Window</span></a>
+      <li><a href="#historical-sliding-log-window"><span class="secno">4.3</span> <span class="content">Historical Sliding Log Window</span></a>
      </ol>
     <li><a href="#window-blocks"><span class="secno">5</span> <span class="content">Window Blocks</span></a>
     <li><a href="#historical-subqueries"><span class="secno">6</span> <span class="content">Historical Subqueries</span></a>
@@ -568,9 +579,9 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <li>
      <a href="#examples"><span class="secno">8</span> <span class="content">Examples</span></a>
      <ol class="toc">
-      <li><a href="#example-live-historical-nested"><span class="secno">8.1</span> <span class="content">Live And Historical Query With Nested Historical Subquery {#example-live-historical-nested}</span></a>
-      <li><a href="#example-historical-only-without-register"><span class="secno">8.2</span> <span class="content">Historical-Only Query Without <code>REGISTER</code> {#example-historical-only-without-register}</span></a>
-      <li><a href="#example-historical-sliding-log-window"><span class="secno">8.3</span> <span class="content">Historical Sliding Log Window Declaration {#example-historical-sliding-log-window}</span></a>
+      <li><a href="#example-live-historical-nested"><span class="secno">8.1</span> <span class="content">Live And Historical Query With Nested Historical Subquery</span></a>
+      <li><a href="#example-historical-only-without-register"><span class="secno">8.2</span> <span class="content">Historical-Only Query Without <code>REGISTER</code></span></a>
+      <li><a href="#example-historical-sliding-log-window"><span class="secno">8.3</span> <span class="content">Historical Sliding Log Window Declaration</span></a>
      </ol>
     <li><a href="#limitations"><span class="secno">9</span> <span class="content">Limitations</span></a>
     <li>
@@ -591,7 +602,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <li data-md>
      <p>historical log windows over <code>ON LOG</code>;</p>
     <li data-md>
-     <p><code>WINDOW &amp;lt;name&amp;gt; { ... }</code> blocks inside <code>WHERE</code>; and</p>
+     <p><code>WINDOW &lt;name> { ... }</code> blocks inside <code>WHERE</code>; and</p>
     <li data-md>
      <p>historical-only nested subqueries inside an outer <code>WHERE</code>.</p>
    </ul>
@@ -619,33 +630,33 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <p>A Janus-QL query MUST contain exactly one top-level <code>SELECT</code> clause and exactly one top-level <code>WHERE</code> clause.</p>
    <p>A Janus-QL query MAY omit <code>REGISTER RStream &lt;output> AS</code> when the query is executed as a historical-only query.</p>
    <p>A query that registers a live output stream SHOULD use <code>REGISTER RStream &lt;output> AS</code>.</p>
-   <p>A <code>FROM NAMED WINDOW</code> declaration introduces a window name that MAY be referenced later in the <code>WHERE</code> clause by a <code>WINDOW &amp;lt;name&amp;gt; { ... }</code> block.</p>
+   <p>A <code>FROM NAMED WINDOW</code> declaration introduces a window name that MAY be referenced later in the <code>WHERE</code> clause by a <code>WINDOW &lt;name> { ... }</code> block.</p>
    <p>The public window declaration forms are:</p>
    <ul>
     <li data-md>
-     <p><code>FROM NAMED WINDOW &amp;lt;w&amp;gt; ON STREAM &amp;lt;s&amp;gt; [RANGE &amp;lt;range&amp;gt; STEP &amp;lt;step&amp;gt;]</code></p>
+     <p><code>FROM NAMED WINDOW &lt;w> ON STREAM &lt;s> [RANGE &lt;range> STEP &lt;step>]</code></p>
     <li data-md>
-     <p><code>FROM NAMED WINDOW &amp;lt;w&amp;gt; ON LOG &amp;lt;l&amp;gt; [START &amp;lt;start&amp;gt; END &amp;lt;end&amp;gt;]</code></p>
+     <p><code>FROM NAMED WINDOW &lt;w> ON LOG &lt;l> [START &lt;start> END &lt;end>]</code></p>
     <li data-md>
-     <p><code>FROM NAMED WINDOW &amp;lt;w&amp;gt; ON LOG &amp;lt;l&amp;gt; [OFFSET &amp;lt;offset&amp;gt; RANGE &amp;lt;range&amp;gt; STEP &amp;lt;step&amp;gt;]</code></p>
+     <p><code>FROM NAMED WINDOW &lt;w> ON LOG &lt;l> [OFFSET &lt;offset> RANGE &lt;range> STEP &lt;step>]</code></p>
    </ul>
    <h2 class="heading settled" data-level="4" id="window-declarations"><span class="secno">4. </span><span class="content">Window Declarations</span><a class="self-link" href="#window-declarations"></a></h2>
    <p>Janus-QL defines the following public window declaration forms.</p>
-   <h3 class="heading settled" data-level="4.1" id="live-stream-window"><span class="secno">4.1. </span><span class="content">Live Stream Window {#live-stream-window}</span><a class="self-link" href="#live-stream-window"></a></h3>
+   <h3 class="heading settled" data-level="4.1" id="live-stream-window"><span class="secno">4.1. </span><span class="content">Live Stream Window</span><a class="self-link" href="#live-stream-window"></a></h3>
    <p>The following form declares a live stream window:</p>
-<pre class="highlight language-sparql"><c- k>FROM NAMED</c-> WINDOW &amp;lt<c- p>;</c->w&amp;gt<c- p>;</c-> ON STREAM &amp;lt<c- p>;</c->s&amp;gt<c- p>;</c-> <c- p>[</c->RANGE &amp;lt<c- p>;</c->range&amp;gt<c- p>;</c-> STEP &amp;lt<c- p>;</c->step&amp;gt<c- p>;]</c->
+<pre class="highlight language-sparql"><c- k>FROM NAMED</c-> WINDOW <c- nl>&lt;w></c-> ON STREAM <c- nl>&lt;s></c-> <c- p>[</c->RANGE <c- nl>&lt;range></c-> STEP <c- nl>&lt;step></c-><c- p>]</c->
 </pre>
-   <p>A processor MUST treat this form as a live window over stream <code>&amp;lt;s&amp;gt;</code>.</p>
-   <h3 class="heading settled" data-level="4.2" id="historical-fixed-log-window"><span class="secno">4.2. </span><span class="content">Historical Fixed Log Window {#historical-fixed-log-window}</span><a class="self-link" href="#historical-fixed-log-window"></a></h3>
+   <p>A processor MUST treat this form as a live window over stream <code>&lt;s></code>.</p>
+   <h3 class="heading settled" data-level="4.2" id="historical-fixed-log-window"><span class="secno">4.2. </span><span class="content">Historical Fixed Log Window</span><a class="self-link" href="#historical-fixed-log-window"></a></h3>
    <p>The following form declares a fixed historical log window:</p>
-<pre class="highlight language-sparql"><c- k>FROM NAMED</c-> WINDOW &amp;lt<c- p>;</c->w&amp;gt<c- p>;</c-> ON LOG &amp;lt<c- p>;</c->l&amp;gt<c- p>;</c-> <c- p>[</c->START &amp;lt<c- p>;</c->start&amp;gt<c- p>;</c-> END &amp;lt<c- p>;</c->end&amp;gt<c- p>;]</c->
+<pre class="highlight language-sparql"><c- k>FROM NAMED</c-> WINDOW <c- nl>&lt;w></c-> ON LOG <c- nl>&lt;l></c-> <c- p>[</c->START <c- nl>&lt;start></c-> END <c- nl>&lt;end></c-><c- p>]</c->
 </pre>
-   <p>A processor MUST treat this form as a historical window over log <code>&amp;lt;l&amp;gt;</code> with explicit start and end bounds.</p>
-   <h3 class="heading settled" data-level="4.3" id="historical-sliding-log-window"><span class="secno">4.3. </span><span class="content">Historical Sliding Log Window {#historical-sliding-log-window}</span><a class="self-link" href="#historical-sliding-log-window"></a></h3>
+   <p>A processor MUST treat this form as a historical window over log <code>&lt;l></code> with explicit start and end bounds.</p>
+   <h3 class="heading settled" data-level="4.3" id="historical-sliding-log-window"><span class="secno">4.3. </span><span class="content">Historical Sliding Log Window</span><a class="self-link" href="#historical-sliding-log-window"></a></h3>
    <p>The following form declares a sliding historical log window:</p>
-<pre class="highlight language-sparql"><c- k>FROM NAMED</c-> WINDOW &amp;lt<c- p>;</c->w&amp;gt<c- p>;</c-> ON LOG &amp;lt<c- p>;</c->l&amp;gt<c- p>;</c-> <c- p>[</c-><c- k>OFFSET</c-> &amp;lt<c- p>;</c-><c- k>offset</c->&amp;gt<c- p>;</c-> RANGE &amp;lt<c- p>;</c->range&amp;gt<c- p>;</c-> STEP &amp;lt<c- p>;</c->step&amp;gt<c- p>;]</c->
+<pre class="highlight language-sparql"><c- k>FROM NAMED</c-> WINDOW <c- nl>&lt;w></c-> ON LOG <c- nl>&lt;l></c-> <c- p>[</c-><c- k>OFFSET</c-> <c- nl>&lt;offset></c-> RANGE <c- nl>&lt;range></c-> STEP <c- nl>&lt;step></c-><c- p>]</c->
 </pre>
-   <p>A processor MUST treat this form as a historical window over log <code>&amp;lt;l&amp;gt;</code> that is resolved relative to live evaluation time.</p>
+   <p>A processor MUST treat this form as a historical window over log <code>&lt;l></code> that is resolved relative to live evaluation time.</p>
    <aside class="note">
   Janus-QL v0.1 documents the current implementation behavior: <code>[T - OFFSET, T - OFFSET + RANGE]</code>.
   This interpretation should be reviewed before a later stable release.
@@ -653,13 +664,13 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </aside>
    <p>For this form, <code>RANGE</code> MUST NOT be greater than <code>OFFSET</code>. Queries where <code>RANGE > OFFSET</code> MUST be rejected.</p>
    <h2 class="heading settled" data-level="5" id="window-blocks"><span class="secno">5. </span><span class="content">Window Blocks</span><a class="self-link" href="#window-blocks"></a></h2>
-   <p>A declared window is referenced inside <code>WHERE</code> by a <code>WINDOW &amp;lt;name&amp;gt; { ... }</code> block.</p>
+   <p>A declared window is referenced inside <code>WHERE</code> by a <code>WINDOW &lt;name> { ... }</code> block.</p>
    <p>Example:</p>
 <pre class="highlight language-sparql">WINDOW <c- nn>ex</c-><c- p>:</c-><c- f>liveWindow</c-> <c- p>{</c->
   <c- g>?sensor</c-> <c- nn>ex</c-><c- p>:</c-><c- f>hasValue</c-> <c- g>?value</c-> <c- p>.</c->
 <c- p>}</c->
 </pre>
-   <p>A <code>WINDOW &amp;lt;name&amp;gt; { ... }</code> block MUST refer to a window name declared by a <code>FROM NAMED WINDOW</code> clause in the same query.</p>
+   <p>A <code>WINDOW &lt;name> { ... }</code> block MUST refer to a window name declared by a <code>FROM NAMED WINDOW</code> clause in the same query.</p>
    <p>The graph pattern inside a <code>WINDOW &lt;name> { ... }</code> block is evaluated against the window selected by that declaration.</p>
    <h2 class="heading settled" data-level="6" id="historical-subqueries"><span class="secno">6. </span><span class="content">Historical Subqueries</span><a class="self-link" href="#historical-subqueries"></a></h2>
    <p>A nested <code>SELECT</code> block MAY appear inside the outer <code>WHERE</code> clause.</p>
@@ -674,14 +685,14 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <p>Historical fixed log windows use the explicit <code>[START ... END]</code> bounds given in the corresponding <code>FROM NAMED WINDOW</code> declaration.</p>
    <p>Historical sliding log windows are resolved relative to live evaluation time <code>T</code>.</p>
    <p>For a declaration of the form:</p>
-<pre class="highlight language-sparql"><c- k>FROM NAMED</c-> WINDOW &amp;lt<c- p>;</c->w&amp;gt<c- p>;</c-> ON LOG &amp;lt<c- p>;</c->l&amp;gt<c- p>;</c-> <c- p>[</c-><c- k>OFFSET</c-> &amp;lt<c- p>;</c-><c- k>offset</c->&amp;gt<c- p>;</c-> RANGE &amp;lt<c- p>;</c->range&amp;gt<c- p>;</c-> STEP &amp;lt<c- p>;</c->step&amp;gt<c- p>;]</c->
+<pre class="highlight language-sparql"><c- k>FROM NAMED</c-> WINDOW <c- nl>&lt;w></c-> ON LOG <c- nl>&lt;l></c-> <c- p>[</c-><c- k>OFFSET</c-> <c- nl>&lt;offset></c-> RANGE <c- nl>&lt;range></c-> STEP <c- nl>&lt;step></c-><c- p>]</c->
 </pre>
    <p>the current Janus implementation resolves the interval as <code>[T - OFFSET, T - OFFSET + RANGE]</code>.</p>
    <p>This specification defines that same interval for this version of Janus-QL.</p>
    <p>Supported historical-only nested subqueries are evaluated as a historical materialization step whose result is joined back into the outer query during overall query evaluation.</p>
    <h2 class="heading settled" data-level="8" id="examples"><span class="secno">8. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h2>
-   <h3 class="heading settled" data-level="8.1" id="example-live-historical-nested"><span class="secno">8.1. </span><span class="content">Live And Historical Query With Nested Historical Subquery {#example-live-historical-nested}</span><a class="self-link" href="#example-live-historical-nested"></a></h3>
-<pre class="highlight language-sparql"><c- k>PREFIX</c-> <c- nn>ex</c-><c- p>:</c-> &amp;lt<c- p>;</c-><c- nn>http</c-><c- p>:</c-><c- o>//</c->example<c- p>.</c->org<c- o>/</c->&amp;gt<c- p>;</c->
+   <h3 class="heading settled" data-level="8.1" id="example-live-historical-nested"><span class="secno">8.1. </span><span class="content">Live And Historical Query With Nested Historical Subquery</span><a class="self-link" href="#example-live-historical-nested"></a></h3>
+<pre class="highlight language-sparql"><c- k>PREFIX</c-> <c- nn>ex</c-><c- p>:</c-> <c- nl>&lt;http://example.org/></c->
 
 REGISTER RStream <c- nn>ex</c-><c- p>:</c-><c- f>output</c-> <c- k>AS</c->
 <c- k>SELECT</c-> <c- g>?sensor</c-> <c- g>?value</c-> <c- g>?historicalAverage</c->
@@ -705,8 +716,8 @@ REGISTER RStream <c- nn>ex</c-><c- p>:</c-><c- f>output</c-> <c- k>AS</c->
   <c- k>FILTER</c-><c- p>(</c-><c- g>?value</c-> <c- o>></c-> <c- g>?historicalAverage</c-><c- p>)</c->
 <c- p>}</c->
 </pre>
-   <h3 class="heading settled" data-level="8.2" id="example-historical-only-without-register"><span class="secno">8.2. </span><span class="content">Historical-Only Query Without <code>REGISTER</code> {#example-historical-only-without-register}</span><a class="self-link" href="#example-historical-only-without-register"></a></h3>
-<pre class="highlight language-sparql"><c- k>PREFIX</c-> <c- nn>ex</c-><c- p>:</c-> &amp;lt<c- p>;</c-><c- nn>http</c-><c- p>:</c-><c- o>//</c->example<c- p>.</c->org<c- o>/</c->&amp;gt<c- p>;</c->
+   <h3 class="heading settled" data-level="8.2" id="example-historical-only-without-register"><span class="secno">8.2. </span><span class="content">Historical-Only Query Without <code>REGISTER</code></span><a class="self-link" href="#example-historical-only-without-register"></a></h3>
+<pre class="highlight language-sparql"><c- k>PREFIX</c-> <c- nn>ex</c-><c- p>:</c-> <c- nl>&lt;http://example.org/></c->
 
 <c- k>SELECT</c-> <c- g>?sensor</c-> <c- g>?value</c->
 <c- k>FROM NAMED</c-> WINDOW <c- nn>ex</c-><c- p>:</c-><c- f>historicalWindow</c-> ON LOG <c- nn>ex</c-><c- p>:</c-><c- f>stream</c-> <c- p>[</c->START <c- mi>0</c-> END <c- mi>86400000</c-><c- p>]</c->
@@ -716,8 +727,8 @@ REGISTER RStream <c- nn>ex</c-><c- p>:</c-><c- f>output</c-> <c- k>AS</c->
   <c- p>}</c->
 <c- p>}</c->
 </pre>
-   <h3 class="heading settled" data-level="8.3" id="example-historical-sliding-log-window"><span class="secno">8.3. </span><span class="content">Historical Sliding Log Window Declaration {#example-historical-sliding-log-window}</span><a class="self-link" href="#example-historical-sliding-log-window"></a></h3>
-<pre class="highlight language-sparql"><c- k>PREFIX</c-> <c- nn>ex</c-><c- p>:</c-> &amp;lt<c- p>;</c-><c- nn>http</c-><c- p>:</c-><c- o>//</c->example<c- p>.</c->org<c- o>/</c->&amp;gt<c- p>;</c->
+   <h3 class="heading settled" data-level="8.3" id="example-historical-sliding-log-window"><span class="secno">8.3. </span><span class="content">Historical Sliding Log Window Declaration</span><a class="self-link" href="#example-historical-sliding-log-window"></a></h3>
+<pre class="highlight language-sparql"><c- k>PREFIX</c-> <c- nn>ex</c-><c- p>:</c-> <c- nl>&lt;http://example.org/></c->
 
 REGISTER RStream <c- nn>ex</c-><c- p>:</c-><c- f>output</c-> <c- k>AS</c->
 <c- k>SELECT</c-> <c- g>?sensor</c-> <c- g>?value</c->

@@ -1,5 +1,4 @@
-Conformance {#conformance}
-==========================
+<h2 id="conformance">Conformance</h2>
 
 The key words MUST, MUST NOT, SHOULD, SHOULD NOT, and MAY in this specification are to be interpreted as described in BCP 14 [[!RFC2119]] [[!RFC8174]] when, and only when, they appear in all capitals.
 

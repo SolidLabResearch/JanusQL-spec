@@ -1,5 +1,4 @@
-Limitations {#limitations}
-==========================
+<h2 id="limitations">Limitations</h2>
 
 `DEFINE BASELINE` and `USING BASELINE` are not part of the public Janus-QL specification.
 

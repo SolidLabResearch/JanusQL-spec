@@ -1,10 +1,9 @@
-Examples {#examples}
-====================
+<h2 id="examples">Examples</h2>
 
-## Live And Historical Query With Nested Historical Subquery {#example-live-historical-nested}
+<h3 id="example-live-historical-nested">Live And Historical Query With Nested Historical Subquery</h3>
 
 ```sparql
-PREFIX ex: &lt;http://example.org/&gt;
+PREFIX ex: <http://example.org/>
 
 REGISTER RStream ex:output AS
 SELECT ?sensor ?value ?historicalAverage
@@ -29,10 +28,10 @@ WHERE {
 }
 ```
 
-## Historical-Only Query Without `REGISTER` {#example-historical-only-without-register}
+<h3 id="example-historical-only-without-register">Historical-Only Query Without <code>REGISTER</code></h3>
 
 ```sparql
-PREFIX ex: &lt;http://example.org/&gt;
+PREFIX ex: <http://example.org/>
 
 SELECT ?sensor ?value
 FROM NAMED WINDOW ex:historicalWindow ON LOG ex:stream [START 0 END 86400000]
@@ -43,10 +42,10 @@ WHERE {
 }
 ```
 
-## Historical Sliding Log Window Declaration {#example-historical-sliding-log-window}
+<h3 id="example-historical-sliding-log-window">Historical Sliding Log Window Declaration</h3>
 
 ```sparql
-PREFIX ex: &lt;http://example.org/&gt;
+PREFIX ex: <http://example.org/>
 
 REGISTER RStream ex:output AS
 SELECT ?sensor ?value
