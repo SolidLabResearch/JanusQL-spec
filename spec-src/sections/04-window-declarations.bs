@@ -33,9 +33,15 @@ FROM NAMED WINDOW <w> ON LOG <l> [OFFSET <offset> RANGE <range> STEP <step>]
 A processor MUST treat this form as a historical window over log `<l>` that is resolved relative to live evaluation time.
 
 <aside class="note">
-  Janus-QL v0.1 documents the current implementation behavior: `[T - OFFSET, T - OFFSET + RANGE]`.
-  This interpretation should be reviewed before a later stable release.
-  An alternative interpretation, `[T - OFFSET - RANGE, T - OFFSET]`, may be more intuitive because it treats `OFFSET` as the distance between the live evaluation time and the end of the historical window.
+  <p><strong>Design note: historical offset semantics.</strong> This note is non-normative.</p>
+
+  <p>Janus-QL Core currently keeps the historical sliding-window interpretation aligned with the validated Janus implementation. In this version, historical sliding windows use the implementation-aligned interval interpretation `[T - OFFSET, T - OFFSET + RANGE]`.</p>
+
+  <p>In this version, the validation rule rejecting historical sliding windows where `RANGE` is greater than `OFFSET` remains part of the current validated Janus-QL Core behavior.</p>
+
+  <p>A future version of Janus-QL may consider an alternative offset-to-window-end interpretation, where a historical sliding window at evaluation time `T` denotes the half-open interval `[T - OFFSET - RANGE, T - OFFSET)`. Under that interpretation, `OFFSET` would represent how far back the historical comparison window ends, and `RANGE` would represent the width of the historical window. This may be easier to explain for use cases such as comparing a live window against a one-hour historical window ending 24 hours ago.</p>
+
+  <p>This alternative interpretation is not Janus-QL Core behavior in the current version. Adopting it would require a future versioned semantic change and corresponding implementation updates.</p>
 </aside>
 
 For this form, `RANGE` MUST NOT be greater than `OFFSET`. Queries where `RANGE > OFFSET` MUST be rejected.

@@ -1490,7 +1490,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version d113b2e81, updated Tue Jun 9 14:57:55 2026 -0700" name="generator">
   <link href="_ORCHESTRATOR_CURRENT_BUILD_FULL_LINK_" rel="canonical">
-  <meta content="03189e31bb868e2534c03422b5ebefccde258670" name="revision">
+  <meta content="32854786c5089579ce56bdd33e36460636ffe57b" name="revision">
   <meta content="dark light" name="color-scheme">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
@@ -2386,10 +2386,12 @@ Parts of this work may be from another specification document.  If so, those par
 </pre>
    <p>A processor MUST treat this form as a historical window over log <code>&lt;l></code> that is resolved relative to live evaluation time.</p>
    <aside class="note">
-  Janus-QL v0.1 documents the current implementation behavior: <code>[T - OFFSET, T - OFFSET + RANGE]</code>.
-  This interpretation should be reviewed before a later stable release.
-  An alternative interpretation, <code>[T - OFFSET - RANGE, T - OFFSET]</code>, may be more intuitive because it treats <code>OFFSET</code> as the distance between the live evaluation time and the end of the historical window.
-</aside>
+    <p><strong>Design note: historical offset semantics.</strong> This note is non-normative.</p>
+    <p>Janus-QL Core currently keeps the historical sliding-window interpretation aligned with the validated Janus implementation. In this version, historical sliding windows use the implementation-aligned interval interpretation <code>[T - OFFSET, T - OFFSET + RANGE]</code>.</p>
+    <p>In this version, the validation rule rejecting historical sliding windows where <code>RANGE</code> is greater than <code>OFFSET</code> remains part of the current validated Janus-QL Core behavior.</p>
+    <p>A future version of Janus-QL may consider an alternative offset-to-window-end interpretation, where a historical sliding window at evaluation time <code>T</code> denotes the half-open interval <code>[T - OFFSET - RANGE, T - OFFSET)</code>. Under that interpretation, <code>OFFSET</code> would represent how far back the historical comparison window ends, and <code>RANGE</code> would represent the width of the historical window. This may be easier to explain for use cases such as comparing a live window against a one-hour historical window ending 24 hours ago.</p>
+    <p>This alternative interpretation is not Janus-QL Core behavior in the current version. Adopting it would require a future versioned semantic change and corresponding implementation updates.</p>
+   </aside>
    <p>For this form, <code>RANGE</code> MUST NOT be greater than <code>OFFSET</code>. Queries where <code>RANGE > OFFSET</code> MUST be rejected.</p>
    <h2 class="heading settled" data-level="6" id="window-blocks"><span class="secno">6. </span><span class="content">Window Blocks</span><a class="self-link" href="#window-blocks"></a></h2>
    <p>A declared window is referenced inside <code>WHERE</code> by a <code>WINDOW &lt;name> { ... }</code> block.</p>
