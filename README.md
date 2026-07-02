@@ -66,4 +66,4 @@ This specification is currently under development.
 
 ## Related work
 
-Janus-QL builds on ideas from RDF, SPARQL, RDF Stream Processing, and historical RDF event log querying.
+Janus-QL builds on ideas from RDF, restricted SPARQL-style graph matching, RSP-QL-style named windows, and historical RDF event log querying.

@@ -6,7 +6,7 @@ The graph-pattern and solution-mapping evaluation translation used by this secti
 
 Live windows are evaluated relative to the live stream schedule associated with the registered or executing query.
 
-Historical fixed log windows use the explicit `[START ... END]` bounds given in the corresponding `FROM NAMED WINDOW` declaration.
+Historical fixed log windows use the explicit `[START ... END]` bounds given in the corresponding `FROM NAMED WINDOW` declaration over a historical RDF event log.
 
 Historical sliding log windows are resolved relative to live evaluation time `T`.
 
@@ -18,6 +18,6 @@ FROM NAMED WINDOW <w> ON LOG <l> [OFFSET <offset> RANGE <range> STEP <step>]
 
 the current Janus implementation resolves the interval as `[T - OFFSET, T - OFFSET + RANGE]`.
 
-This specification defines that same interval for this version of Janus-QL.
+This specification defines that same interval for this version of Janus-QL Core.
 
 Supported historical-only nested subqueries are evaluated as a historical materialization step whose result is joined back into the outer query during overall query evaluation.

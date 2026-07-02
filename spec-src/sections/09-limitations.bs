@@ -6,8 +6,8 @@ The implementation may still contain legacy compatibility paths and internal bas
 
 Older implementation paths may still accept historical `[START ... END]` and `[OFFSET ... RANGE ... STEP ...]` forms on `ON STREAM`. This specification does not define those forms as public Janus-QL syntax. In this version, historical windows are defined only over `ON LOG`.
 
-Live-only nested subqueries and mixed live/historical nested subqueries are not part of this version of Janus-QL.
+Live-only nested subqueries and mixed live-historical nested subqueries are not part of Janus-QL Core.
 
-SPARQL and RSP-QL features that are not explicitly listed in this specification are outside Janus-QL Core. This includes unsupported query forms, result-stream forms, graph operators, and nested-query forms beyond the public syntax defined here.
+SPARQL and RSP-QL features that are not explicitly listed in this specification are outside Janus-QL Core. This includes full RSP-QL conformance, full SPARQL 1.1 conformance, `IStream`, `DStream`, `CONSTRUCT`, `ASK`, `DESCRIBE`, `SERVICE`, property paths, arbitrary SPARQL subqueries, mixed live-historical nested subqueries, and other unsupported query forms beyond the public syntax defined here.
 
 This specification does not define unsupported future syntax beyond the public forms listed in this document.

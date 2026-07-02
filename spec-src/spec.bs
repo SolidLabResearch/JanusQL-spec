@@ -4,7 +4,7 @@ Shortname: janus-ql-specification
 Level: none
 Status: LD
 Editor: Kushagra Singh Bisen, Ghent University - imec http://idlab.ugent.be/, kushagrasingh.bisen@ugent.be
-Abstract: This specification defines the first public Janus-QL query language contract implemented by the current validated Janus system for hybrid live-historical RDF querying.
+Abstract: This specification defines the first public Janus-QL Core query language contract implemented by the current validated Janus system for hybrid live-historical RDF querying.
 Markup Shorthands: markdown yes, css no
 Local Boilerplate: defaults yes
 Local Boilerplate: computed-metadata yes

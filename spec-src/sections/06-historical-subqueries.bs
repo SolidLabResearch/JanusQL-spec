@@ -1,12 +1,12 @@
 <h2 id="historical-subqueries">Historical Subqueries</h2>
 
-A nested `SELECT` block MAY appear inside the outer `WHERE` clause.
+In Janus-QL Core, a nested `SELECT` block MAY appear inside the outer `WHERE` clause.
 
 A nested subquery is supported only when every `WINDOW` referenced inside that nested subquery is a historical `ON LOG` window.
 
-Live-only nested subqueries are not part of this version of Janus-QL and MUST be rejected.
+Live-only nested subqueries are not part of Janus-QL Core and MUST be rejected.
 
-Mixed live and historical nested subqueries are not part of this version of Janus-QL and MUST be rejected.
+Mixed live-historical nested subqueries are not part of Janus-QL Core and MUST be rejected.
 
 Supported historical-only nested subqueries are lowered to a materialized historical result and joined back into the outer query.
 

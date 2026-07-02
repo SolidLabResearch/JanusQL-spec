@@ -1,12 +1,12 @@
 <h2 id="evaluation-translation">Evaluation Translation</h2>
 
-This section defines a conservative Janus-QL Core evaluation translation in terms of SPARQL-style graph-pattern evaluation over the window materializations defined in [[#data-model]].
+This section defines a conservative Janus-QL Core evaluation translation in terms of SPARQL-style graph-pattern evaluation over the materialized window graphs defined in [[#data-model]].
 
-For a declared window `w` and evaluation time `T`, let `G_w(T)` denote the materialized RDF graph or quad content exposed by `w`.
+For a declared window `w` and evaluation time `T`, let `G_w(T)` denote the materialized window graph exposed by `w`.
 
 For fixed historical windows declared using `ON LOG [START ... END]`, `G_w(T)` is independent of `T`.
 
-For live stream windows declared using `ON STREAM [RANGE ... STEP]`, `G_w(T)` depends on `T` according to the live evaluation schedule.
+For live stream windows declared using `ON STREAM [RANGE ... STEP ...]`, `G_w(T)` depends on `T` according to the live evaluation schedule.
 
 For historical sliding log windows declared using `ON LOG [OFFSET ... RANGE ... STEP ...]`, `G_w(T)` depends on `T` according to the historical sliding-window semantics defined in [[#evaluation-semantics]].
 
@@ -32,7 +32,7 @@ is evaluated at evaluation time `T` as:
 Eval_T(WINDOW w { P }) = EvalGraph(P, G_w(T))
 ```
 
-The result of a `WINDOW` block is therefore a multiset of solution mappings, even though the underlying window materialization has graph-set semantics as defined in [[#data-model]].
+The result of a `WINDOW` block is therefore a multiset of solution mappings, even though the underlying materialized window graph has graph-set semantics as defined in [[#data-model]].
 
 When a `WHERE` clause contains multiple `WINDOW` blocks, Janus-QL Core combines their solution multisets using SPARQL-style join over compatible solution mappings.
 
@@ -57,7 +57,7 @@ Join(EvalGraph(P1, G_w1(T)), EvalGraph(P2, G_w2(T)))
 
 A historical-only nested subquery MAY reference only declared `ON LOG` windows.
 
-Such a nested subquery is evaluated over the corresponding historical window materializations `G_w(T)` for the referenced historical windows. The nested subquery produces a multiset of solution mappings.
+Such a nested subquery is evaluated over the corresponding materialized window graphs `G_w(T)` for the referenced historical windows. The nested subquery produces a multiset of solution mappings.
 
 That result multiset is joined back into the surrounding query using the same shared-variable compatibility used for joins among `WINDOW` blocks.
 

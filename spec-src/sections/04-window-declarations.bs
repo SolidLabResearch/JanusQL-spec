@@ -20,7 +20,7 @@ The following form declares a fixed historical log window:
 FROM NAMED WINDOW <w> ON LOG <l> [START <start> END <end>]
 ```
 
-A processor MUST treat this form as a historical window over log `<l>` with explicit start and end bounds.
+A processor MUST treat this form as a historical window over RDF event log `<l>` with explicit start and end bounds.
 
 <h3 id="historical-sliding-log-window">Historical Sliding Log Window</h3>
 
@@ -30,7 +30,7 @@ The following form declares a sliding historical log window:
 FROM NAMED WINDOW <w> ON LOG <l> [OFFSET <offset> RANGE <range> STEP <step>]
 ```
 
-A processor MUST treat this form as a historical window over log `<l>` that is resolved relative to live evaluation time.
+A processor MUST treat this form as a historical window over RDF event log `<l>` that is resolved relative to live evaluation time.
 
 <aside class="note">
   <p><strong>Design note: historical offset semantics.</strong> This note is non-normative.</p>

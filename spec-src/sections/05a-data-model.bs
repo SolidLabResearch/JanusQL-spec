@@ -26,7 +26,7 @@ A window declaration selects a time-bounded subset of RDF events from a live str
 
 For a declared window `w` and evaluation time `T`, let `E_w(T)` denote the selected RDF events whose timestamps fall within the bounds defined for `w` by this specification.
 
-The selected events are materialized for graph-pattern evaluation as the contents of the referenced window. This specification writes that materialized content as `G_w(T)`.
+The selected events are materialized for graph-pattern evaluation as the contents of the referenced window. This specification writes that materialized window graph as `G_w(T)`.
 
 A pattern of the form:
 
@@ -40,9 +40,9 @@ is evaluated by matching `P` against `G_w(T)`.
 
 The name used in `WINDOW <name> { ... }` identifies the Janus-QL window declaration. It does not, by itself, denote an original RDF named graph from the input data.
 
-The current validated Janus implementation materializes selected RDF events by converting them to RDF quads and then exposing the distinct resulting quads for query evaluation. Accordingly, Janus-QL Core window materialization has graph-set semantics in this version of the specification: if two selected RDF events contribute the same RDF quad, that quad is present only once in the materialized window contents seen by the query processor.
+The current validated Janus implementation materializes selected RDF events by converting them to RDF quads and then exposing the distinct resulting quads for query evaluation. Accordingly, Janus-QL Core window materialization has graph-set semantics in this version of the specification: if two selected RDF events contribute the same RDF quad, that quad is present only once in the materialized window graph seen by the query processor.
 
-This specification therefore defines window membership in terms of timestamp-selected RDF events, but graph-pattern evaluation in terms of the distinct RDF graph or quad content exposed after materialization.
+This specification therefore defines window membership in terms of timestamp-selected RDF events, but graph-pattern evaluation in terms of the distinct materialized window graph exposed after materialization.
 
 Event ordering within a live stream or historical RDF event log does not by itself determine query results in Janus-QL Core, except where a later section explicitly defines behavior relative to evaluation time. Window membership is determined by timestamp bounds, not by incidental storage or ingestion order.
 
@@ -57,12 +57,12 @@ Event ordering within a live stream or historical RDF event log does not by itse
 (1150, ex:s1 ex:hasValue "20" ex:g)
 ```
 
-  <p>For a historical window whose selected timestamp interval includes `1000`, `1100`, and `1150`, the selected events contain three RDF event records. The materialized window contents seen by the `WINDOW` block contain the distinct RDF graph content:</p>
+  <p>For a historical window whose selected timestamp interval includes `1000`, `1100`, and `1150`, the selected events contain three RDF event records. The materialized window graph seen by the `WINDOW` block contains the distinct RDF graph content:</p>
 
 ```turtle
 ex:s1 ex:hasValue "20" .
 ex:s1 ex:hasStatus ex:ok .
 ```
 
-  <p>The repeated `ex:s1 ex:hasValue "20"` event contributes the same RDF quad twice, but it appears once in the materialized window contents because the current Janus implementation evaluates over distinct materialized quads.</p>
+  <p>The repeated `ex:s1 ex:hasValue "20"` event contributes the same RDF quad twice, but it appears once in the materialized window graph because the current Janus implementation evaluates over distinct materialized quads.</p>
 </aside>
