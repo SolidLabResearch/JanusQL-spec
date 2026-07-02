@@ -1,0 +1,36 @@
+<h2 id="expression-fragment">Expression Fragment</h2>
+
+Janus-QL Core defines a conservative SPARQL-style expression fragment for `FILTER` and `HAVING`.
+
+This specification does not claim full SPARQL 1.1 expression conformance.
+
+Janus-QL Core explicitly defines the following expression forms:
+
+* variable references;
+* RDF literals;
+* parenthesized expressions;
+* comparison expressions using `=`, `!=`, `<`, `<=`, `>`, and `>=`; and
+* aggregate result variables and grouping variables in `HAVING`.
+
+`FILTER` expressions restrict the solution mappings produced by the surrounding graph-pattern evaluation.
+
+`HAVING` expressions restrict grouped results after `GROUP BY` and aggregate evaluation.
+
+The current validated Janus-QL Core examples and tests explicitly cover comparison-style `FILTER` expressions such as `?value > ?historicalAverage` and `HAVING` predicates such as `AVG(?value) > ?dayAvgValue`.
+
+Janus-QL Core does not otherwise define full SPARQL 1.1 expression semantics. In particular, this specification does not define the following forms as part of Janus-QL Core unless a later version explicitly adds them:
+
+* `EXISTS`;
+* `NOT EXISTS`;
+* `IN`;
+* `NOT IN`;
+* `regex`;
+* function calls;
+* datatype casts;
+* arithmetic expressions;
+* `bound()`;
+* `isIRI()`;
+* `isLiteral()`; and
+* language-tag inspection or language-tag matching functions.
+
+A Janus-QL processor MAY support additional SPARQL-like expression forms as implementation extensions. Such extensions are non-normative and do not expand Janus-QL Core.

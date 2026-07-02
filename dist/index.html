@@ -1490,7 +1490,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version d113b2e81, updated Tue Jun 9 14:57:55 2026 -0700" name="generator">
   <link href="_ORCHESTRATOR_CURRENT_BUILD_FULL_LINK_" rel="canonical">
-  <meta content="3b065ec3cfb0e4194eb0a58186faf95ca6d14b70" name="revision">
+  <meta content="1e11a480250435c65f18285c97efc569cdf893e8" name="revision">
   <meta content="dark light" name="color-scheme">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
@@ -2093,35 +2093,36 @@ Parts of this work may be from another specification document.  If so, those par
      <ol class="toc">
       <li><a href="#core-grammar-validation"><span class="secno">4.1</span> <span class="content">Grammar Validation Rules</span></a>
      </ol>
+    <li><a href="#expression-fragment"><span class="secno">5</span> <span class="content">Expression Fragment</span></a>
     <li>
-     <a href="#window-declarations"><span class="secno">5</span> <span class="content">Window Declarations</span></a>
+     <a href="#window-declarations"><span class="secno">6</span> <span class="content">Window Declarations</span></a>
      <ol class="toc">
-      <li><a href="#live-stream-window"><span class="secno">5.1</span> <span class="content">Live Stream Window</span></a>
-      <li><a href="#historical-fixed-log-window"><span class="secno">5.2</span> <span class="content">Historical Fixed Log Window</span></a>
-      <li><a href="#historical-sliding-log-window"><span class="secno">5.3</span> <span class="content">Historical Sliding Log Window</span></a>
+      <li><a href="#live-stream-window"><span class="secno">6.1</span> <span class="content">Live Stream Window</span></a>
+      <li><a href="#historical-fixed-log-window"><span class="secno">6.2</span> <span class="content">Historical Fixed Log Window</span></a>
+      <li><a href="#historical-sliding-log-window"><span class="secno">6.3</span> <span class="content">Historical Sliding Log Window</span></a>
      </ol>
-    <li><a href="#window-blocks"><span class="secno">6</span> <span class="content">Window Blocks</span></a>
+    <li><a href="#window-blocks"><span class="secno">7</span> <span class="content">Window Blocks</span></a>
     <li>
-     <a href="#data-model"><span class="secno">7</span> <span class="content">RDF Stream and Log Data Model</span></a>
+     <a href="#data-model"><span class="secno">8</span> <span class="content">RDF Stream and Log Data Model</span></a>
      <ol class="toc">
-      <li><a href="#window-materialization"><span class="secno">7.1</span> <span class="content">Window Materialization</span></a>
+      <li><a href="#window-materialization"><span class="secno">8.1</span> <span class="content">Window Materialization</span></a>
      </ol>
     <li>
-     <a href="#evaluation-translation"><span class="secno">8</span> <span class="content">Evaluation Translation</span></a>
+     <a href="#evaluation-translation"><span class="secno">9</span> <span class="content">Evaluation Translation</span></a>
      <ol class="toc">
-      <li><a href="#window-block-evaluation"><span class="secno">8.1</span> <span class="content">WINDOW Block Evaluation</span></a>
-      <li><a href="#historical-subquery-evaluation"><span class="secno">8.2</span> <span class="content">Historical-Only Nested Subquery Evaluation</span></a>
-      <li><a href="#rstream-evaluation"><span class="secno">8.3</span> <span class="content">RStream Output</span></a>
+      <li><a href="#window-block-evaluation"><span class="secno">9.1</span> <span class="content">WINDOW Block Evaluation</span></a>
+      <li><a href="#historical-subquery-evaluation"><span class="secno">9.2</span> <span class="content">Historical-Only Nested Subquery Evaluation</span></a>
+      <li><a href="#rstream-evaluation"><span class="secno">9.3</span> <span class="content">RStream Output</span></a>
      </ol>
-    <li><a href="#historical-subqueries"><span class="secno">9</span> <span class="content">Historical Subqueries</span></a>
-    <li><a href="#evaluation-semantics"><span class="secno">10</span> <span class="content">Evaluation Semantics</span></a>
+    <li><a href="#historical-subqueries"><span class="secno">10</span> <span class="content">Historical Subqueries</span></a>
+    <li><a href="#evaluation-semantics"><span class="secno">11</span> <span class="content">Evaluation Semantics</span></a>
     <li>
-     <a href="#examples"><span class="secno">11</span> <span class="content">Examples</span></a>
+     <a href="#examples"><span class="secno">12</span> <span class="content">Examples</span></a>
      <ol class="toc">
-      <li><a href="#valid-examples"><span class="secno">11.1</span> <span class="content">Valid Janus-QL Core Examples</span></a>
-      <li><a href="#invalid-examples"><span class="secno">11.2</span> <span class="content">Invalid Janus-QL Core Examples</span></a>
+      <li><a href="#valid-examples"><span class="secno">12.1</span> <span class="content">Valid Janus-QL Core Examples</span></a>
+      <li><a href="#invalid-examples"><span class="secno">12.2</span> <span class="content">Invalid Janus-QL Core Examples</span></a>
      </ol>
-    <li><a href="#limitations"><span class="secno">12</span> <span class="content">Limitations</span></a>
+    <li><a href="#limitations"><span class="secno">13</span> <span class="content">Limitations</span></a>
     <li>
      <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
      <ol class="toc">
@@ -2332,7 +2333,7 @@ Parts of this work may be from another specification document.  If so, those par
 <c- u>    | "</c->$" <c- k>Name</c->
 
 <c- k>Expression </c->::=
-    /* <c- k>supported Janus-QL Core SPARQL-style scalar or aggregate expression fragment </c->*/
+    /* <c- k>supported Janus-QL Core expression fragment</c-><c- p>;</c-> <c- k>see </c->[[#<c- k>expression-fragment</c->]] */
 </pre>
    <p>Janus-QL Core reuses SPARQL-style lexical forms for <code>IRIREF</code>, <code>PrefixedName</code>, <code>Literal</code>, <code>Name</code>, <code>PrefixName</code>, and <code>Var</code>.</p>
    <p>For this version of the specification:</p>
@@ -2344,7 +2345,7 @@ Parts of this work may be from another specification document.  If so, those par
     <li data-md>
      <p>The current validated Janus implementation parses both <code>Duration</code> and <code>Timestamp</code> as non-negative decimal integers.</p>
    </ul>
-   <p>The <code>Expression</code> non-terminal is intentionally left compact. In Janus-QL Core it covers the supported SPARQL-style expression fragment accepted by the current Janus processor in <code>SELECT</code>, <code>FILTER</code>, and <code>HAVING</code>, including aggregate expressions such as <code>AVG(?v)</code> and comparison expressions such as <code>?x > ?y</code>.</p>
+   <p>The <code>Expression</code> non-terminal is intentionally left compact. In Janus-QL Core it covers the supported expression fragment summarized in <a href="#expression-fragment">§ 5 Expression Fragment</a>.</p>
    <p>Nested historical subqueries do not introduce their own <code>FROM NAMED WINDOW</code> declarations in Janus-QL Core. They reference <code>WINDOW</code> names declared by the surrounding top-level query, and every referenced window MUST be a historical <code>ON LOG</code> window.</p>
    <h3 class="heading settled" data-level="4.1" id="core-grammar-validation"><span class="secno">4.1. </span><span class="content">Grammar Validation Rules</span><a class="self-link" href="#core-grammar-validation"></a></h3>
    <p>The following well-formedness conditions apply to Janus-QL Core queries:</p>
@@ -2369,19 +2370,66 @@ Parts of this work may be from another specification document.  If so, those par
      <p>A query MUST NOT declare the same window name more than once.</p>
    </ul>
    <p>The current validated Janus implementation already documents and tests the <code>RANGE > OFFSET</code> rejection for historical sliding log windows, the <code>ON STREAM</code> versus <code>ON LOG</code> distinction, and rejection of unknown window references. The remaining conditions above define the Janus-QL Core surface-language contract even if a particular processor reports the error during parsing, a later validation phase, or execution planning.</p>
-   <h2 class="heading settled" data-level="5" id="window-declarations"><span class="secno">5. </span><span class="content">Window Declarations</span><a class="self-link" href="#window-declarations"></a></h2>
+   <h2 class="heading settled" data-level="5" id="expression-fragment"><span class="secno">5. </span><span class="content">Expression Fragment</span><a class="self-link" href="#expression-fragment"></a></h2>
+   <p>Janus-QL Core defines a conservative SPARQL-style expression fragment for <code>FILTER</code> and <code>HAVING</code>.</p>
+   <p>This specification does not claim full SPARQL 1.1 expression conformance.</p>
+   <p>Janus-QL Core explicitly defines the following expression forms:</p>
+   <ul>
+    <li data-md>
+     <p>variable references;</p>
+    <li data-md>
+     <p>RDF literals;</p>
+    <li data-md>
+     <p>parenthesized expressions;</p>
+    <li data-md>
+     <p>comparison expressions using <code>=</code>, <code>!=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>></code>, and <code>>=</code>; and</p>
+    <li data-md>
+     <p>aggregate result variables and grouping variables in <code>HAVING</code>.</p>
+   </ul>
+   <p><code>FILTER</code> expressions restrict the solution mappings produced by the surrounding graph-pattern evaluation.</p>
+   <p><code>HAVING</code> expressions restrict grouped results after <code>GROUP BY</code> and aggregate evaluation.</p>
+   <p>The current validated Janus-QL Core examples and tests explicitly cover comparison-style <code>FILTER</code> expressions such as <code>?value > ?historicalAverage</code> and <code>HAVING</code> predicates such as <code>AVG(?value) > ?dayAvgValue</code>.</p>
+   <p>Janus-QL Core does not otherwise define full SPARQL 1.1 expression semantics. In particular, this specification does not define the following forms as part of Janus-QL Core unless a later version explicitly adds them:</p>
+   <ul>
+    <li data-md>
+     <p><code>EXISTS</code>;</p>
+    <li data-md>
+     <p><code>NOT EXISTS</code>;</p>
+    <li data-md>
+     <p><code>IN</code>;</p>
+    <li data-md>
+     <p><code>NOT IN</code>;</p>
+    <li data-md>
+     <p><code>regex</code>;</p>
+    <li data-md>
+     <p>function calls;</p>
+    <li data-md>
+     <p>datatype casts;</p>
+    <li data-md>
+     <p>arithmetic expressions;</p>
+    <li data-md>
+     <p><code>bound()</code>;</p>
+    <li data-md>
+     <p><code>isIRI()</code>;</p>
+    <li data-md>
+     <p><code>isLiteral()</code>; and</p>
+    <li data-md>
+     <p>language-tag inspection or language-tag matching functions.</p>
+   </ul>
+   <p>A Janus-QL processor MAY support additional SPARQL-like expression forms as implementation extensions. Such extensions are non-normative and do not expand Janus-QL Core.</p>
+   <h2 class="heading settled" data-level="6" id="window-declarations"><span class="secno">6. </span><span class="content">Window Declarations</span><a class="self-link" href="#window-declarations"></a></h2>
    <p>Janus-QL defines the following public window declaration forms.</p>
-   <h3 class="heading settled" data-level="5.1" id="live-stream-window"><span class="secno">5.1. </span><span class="content">Live Stream Window</span><a class="self-link" href="#live-stream-window"></a></h3>
+   <h3 class="heading settled" data-level="6.1" id="live-stream-window"><span class="secno">6.1. </span><span class="content">Live Stream Window</span><a class="self-link" href="#live-stream-window"></a></h3>
    <p>The following form declares a live stream window:</p>
 <pre class="highlight language-sparql"><c- k>FROM NAMED</c-> WINDOW <c- nl>&lt;w></c-> ON STREAM <c- nl>&lt;s></c-> <c- p>[</c->RANGE <c- nl>&lt;range></c-> STEP <c- nl>&lt;step></c-><c- p>]</c->
 </pre>
    <p>A processor MUST treat this form as a live window over stream <code>&lt;s></code>.</p>
-   <h3 class="heading settled" data-level="5.2" id="historical-fixed-log-window"><span class="secno">5.2. </span><span class="content">Historical Fixed Log Window</span><a class="self-link" href="#historical-fixed-log-window"></a></h3>
+   <h3 class="heading settled" data-level="6.2" id="historical-fixed-log-window"><span class="secno">6.2. </span><span class="content">Historical Fixed Log Window</span><a class="self-link" href="#historical-fixed-log-window"></a></h3>
    <p>The following form declares a fixed historical log window:</p>
 <pre class="highlight language-sparql"><c- k>FROM NAMED</c-> WINDOW <c- nl>&lt;w></c-> ON LOG <c- nl>&lt;l></c-> <c- p>[</c->START <c- nl>&lt;start></c-> END <c- nl>&lt;end></c-><c- p>]</c->
 </pre>
    <p>A processor MUST treat this form as a historical window over RDF event log <code>&lt;l></code> with explicit start and end bounds.</p>
-   <h3 class="heading settled" data-level="5.3" id="historical-sliding-log-window"><span class="secno">5.3. </span><span class="content">Historical Sliding Log Window</span><a class="self-link" href="#historical-sliding-log-window"></a></h3>
+   <h3 class="heading settled" data-level="6.3" id="historical-sliding-log-window"><span class="secno">6.3. </span><span class="content">Historical Sliding Log Window</span><a class="self-link" href="#historical-sliding-log-window"></a></h3>
    <p>The following form declares a sliding historical log window:</p>
 <pre class="highlight language-sparql"><c- k>FROM NAMED</c-> WINDOW <c- nl>&lt;w></c-> ON LOG <c- nl>&lt;l></c-> <c- p>[</c-><c- k>OFFSET</c-> <c- nl>&lt;offset></c-> RANGE <c- nl>&lt;range></c-> STEP <c- nl>&lt;step></c-><c- p>]</c->
 </pre>
@@ -2394,7 +2442,7 @@ Parts of this work may be from another specification document.  If so, those par
     <p>This alternative interpretation is not Janus-QL Core behavior in the current version. Adopting it would require a future versioned semantic change and corresponding implementation updates.</p>
    </aside>
    <p>For this form, <code>RANGE</code> MUST NOT be greater than <code>OFFSET</code>. Queries where <code>RANGE > OFFSET</code> MUST be rejected.</p>
-   <h2 class="heading settled" data-level="6" id="window-blocks"><span class="secno">6. </span><span class="content">Window Blocks</span><a class="self-link" href="#window-blocks"></a></h2>
+   <h2 class="heading settled" data-level="7" id="window-blocks"><span class="secno">7. </span><span class="content">Window Blocks</span><a class="self-link" href="#window-blocks"></a></h2>
    <p>A declared window is referenced inside <code>WHERE</code> by a <code>WINDOW &lt;name> { ... }</code> block.</p>
    <p>Example:</p>
 <pre class="highlight language-sparql">WINDOW <c- nn>ex</c-><c- p>:</c-><c- f>liveWindow</c-> <c- p>{</c->
@@ -2402,8 +2450,8 @@ Parts of this work may be from another specification document.  If so, those par
 <c- p>}</c->
 </pre>
    <p>A <code>WINDOW &lt;name> { ... }</code> block MUST refer to a window name declared by a <code>FROM NAMED WINDOW</code> clause in the same query.</p>
-   <p>The graph pattern inside a <code>WINDOW &lt;name> { ... }</code> block is evaluated against the materialized window graph selected by that declaration, as defined in <a href="#data-model">§ 7 RDF Stream and Log Data Model</a>.</p>
-   <h2 class="heading settled" data-level="7" id="data-model"><span class="secno">7. </span><span class="content">RDF Stream and Log Data Model</span><a class="self-link" href="#data-model"></a></h2>
+   <p>The graph pattern inside a <code>WINDOW &lt;name> { ... }</code> block is evaluated against the materialized window graph selected by that declaration, as defined in <a href="#data-model">§ 8 RDF Stream and Log Data Model</a>.</p>
+   <h2 class="heading settled" data-level="8" id="data-model"><span class="secno">8. </span><span class="content">RDF Stream and Log Data Model</span><a class="self-link" href="#data-model"></a></h2>
    <p>This section defines the abstract data model over which Janus-QL Core window declarations and <code>WINDOW</code> blocks are evaluated.</p>
    <p>The current validated Janus implementation ingests timestamped RDF event records. In implementation terms, each record carries:</p>
    <ul>
@@ -2423,7 +2471,7 @@ Parts of this work may be from another specification document.  If so, those par
    <p>A live RDF stream is a potentially unbounded sequence of RDF events.</p>
    <p>A historical RDF event log is a finite, persistent sequence of RDF events that can be queried retrospectively.</p>
    <p>The timestamp domain for Janus-QL Core is the set of non-negative integer millisecond event-time timestamps, consistent with <a href="#core-grammar">§ 4 Janus-QL Core Grammar</a>.</p>
-   <h3 class="heading settled" data-level="7.1" id="window-materialization"><span class="secno">7.1. </span><span class="content">Window Materialization</span><a class="self-link" href="#window-materialization"></a></h3>
+   <h3 class="heading settled" data-level="8.1" id="window-materialization"><span class="secno">8.1. </span><span class="content">Window Materialization</span><a class="self-link" href="#window-materialization"></a></h3>
    <p>A window declaration selects a time-bounded subset of RDF events from a live stream or historical log.</p>
    <p>For a declared window <code>w</code> and evaluation time <code>T</code>, let <code>E_w(T)</code> denote the selected RDF events whose timestamps fall within the bounds defined for <code>w</code> by this specification.</p>
    <p>The selected events are materialized for graph-pattern evaluation as the contents of the referenced window. This specification writes that materialized window graph as <code>G_w(T)</code>.</p>
@@ -2452,16 +2500,16 @@ Parts of this work may be from another specification document.  If so, those par
 </pre>
     <p>The repeated <code>ex:s1 ex:hasValue "20"</code> event contributes the same RDF quad twice, but it appears once in the materialized window graph because the current Janus implementation evaluates over distinct materialized quads.</p>
    </aside>
-   <h2 class="heading settled" data-level="8" id="evaluation-translation"><span class="secno">8. </span><span class="content">Evaluation Translation</span><a class="self-link" href="#evaluation-translation"></a></h2>
-   <p>This section defines a conservative Janus-QL Core evaluation translation in terms of SPARQL-style graph-pattern evaluation over the materialized window graphs defined in <a href="#data-model">§ 7 RDF Stream and Log Data Model</a>.</p>
+   <h2 class="heading settled" data-level="9" id="evaluation-translation"><span class="secno">9. </span><span class="content">Evaluation Translation</span><a class="self-link" href="#evaluation-translation"></a></h2>
+   <p>This section defines a conservative Janus-QL Core evaluation translation in terms of SPARQL-style graph-pattern evaluation over the materialized window graphs defined in <a href="#data-model">§ 8 RDF Stream and Log Data Model</a>.</p>
    <p>For a declared window <code>w</code> and evaluation time <code>T</code>, let <code>G_w(T)</code> denote the materialized window graph exposed by <code>w</code>.</p>
    <p>For fixed historical windows declared using <code>ON LOG [START ... END]</code>, <code>G_w(T)</code> is independent of <code>T</code>.</p>
    <p>For live stream windows declared using <code>ON STREAM [RANGE ... STEP ...]</code>, <code>G_w(T)</code> depends on <code>T</code> according to the live evaluation schedule.</p>
-   <p>For historical sliding log windows declared using <code>ON LOG [OFFSET ... RANGE ... STEP ...]</code>, <code>G_w(T)</code> depends on <code>T</code> according to the historical sliding-window semantics defined in <a href="#evaluation-semantics">§ 10 Evaluation Semantics</a>.</p>
+   <p>For historical sliding log windows declared using <code>ON LOG [OFFSET ... RANGE ... STEP ...]</code>, <code>G_w(T)</code> depends on <code>T</code> according to the historical sliding-window semantics defined in <a href="#evaluation-semantics">§ 11 Evaluation Semantics</a>.</p>
    <p>Let <code>EvalGraph(P, G)</code> denote the SPARQL-style evaluation of graph pattern <code>P</code> over graph <code>G</code>, returning a multiset of solution mappings.</p>
    <p>Let two solution mappings be compatible when they assign the same RDF term to every shared variable.</p>
    <p>Let <code>Join(Ω1, Ω2)</code> denote the SPARQL-style join of two multisets of solution mappings <code>Ω1</code> and <code>Ω2</code> using compatibility on shared variables.</p>
-   <h3 class="heading settled" data-level="8.1" id="window-block-evaluation"><span class="secno">8.1. </span><span class="content">WINDOW Block Evaluation</span><a class="self-link" href="#window-block-evaluation"></a></h3>
+   <h3 class="heading settled" data-level="9.1" id="window-block-evaluation"><span class="secno">9.1. </span><span class="content">WINDOW Block Evaluation</span><a class="self-link" href="#window-block-evaluation"></a></h3>
    <p>A Janus-QL Core window block of the form:</p>
 <pre class="highlight language-sparql">WINDOW w <c- p>{</c->
   P
@@ -2470,7 +2518,7 @@ Parts of this work may be from another specification document.  If so, those par
    <p>is evaluated at evaluation time <code>T</code> as:</p>
 <pre class="highlight language-text">Eval_T(WINDOW w { P }) = EvalGraph(P, G_w(T))
 </pre>
-   <p>The result of a <code>WINDOW</code> block is therefore a multiset of solution mappings, even though the underlying materialized window graph has graph-set semantics as defined in <a href="#data-model">§ 7 RDF Stream and Log Data Model</a>.</p>
+   <p>The result of a <code>WINDOW</code> block is therefore a multiset of solution mappings, even though the underlying materialized window graph has graph-set semantics as defined in <a href="#data-model">§ 8 RDF Stream and Log Data Model</a>.</p>
    <p>When a <code>WHERE</code> clause contains multiple <code>WINDOW</code> blocks, Janus-QL Core combines their solution multisets using SPARQL-style join over compatible solution mappings.</p>
    <p>For example, if a <code>WHERE</code> clause contains:</p>
 <pre class="highlight language-sparql">WINDOW w<c- mi>1</c-> <c- p>{</c-> P<c- mi>1</c-> <c- p>}</c->
@@ -2479,9 +2527,9 @@ WINDOW w<c- mi>2</c-> <c- p>{</c-> P<c- mi>2</c-> <c- p>}</c->
    <p>then the corresponding graph-pattern result at evaluation time <code>T</code> is:</p>
 <pre class="highlight language-text">Join(EvalGraph(P1, G_w1(T)), EvalGraph(P2, G_w2(T)))
 </pre>
-   <p><code>FILTER</code> expressions are evaluated over the solution mappings produced by the surrounding graph pattern, following the supported SPARQL-style expression behavior defined by this specification.</p>
-   <p><code>GROUP BY</code>, aggregate expressions, and <code>HAVING</code> are applied after graph-pattern evaluation over the resulting solution multiset, following the supported SPARQL-style aggregate behavior accepted by the current Janus-QL Core processor. This specification does not imply full SPARQL 1.1 aggregate conformance beyond the supported Janus-QL Core fragment.</p>
-   <h3 class="heading settled" data-level="8.2" id="historical-subquery-evaluation"><span class="secno">8.2. </span><span class="content">Historical-Only Nested Subquery Evaluation</span><a class="self-link" href="#historical-subquery-evaluation"></a></h3>
+   <p><code>FILTER</code> expressions are evaluated over the solution mappings produced by the surrounding graph pattern, following the supported expression fragment defined in <a href="#expression-fragment">§ 5 Expression Fragment</a>.</p>
+   <p><code>GROUP BY</code>, aggregate expressions, and <code>HAVING</code> are applied after graph-pattern evaluation over the resulting solution multiset, following the supported aggregate and expression behavior defined by this specification. This specification does not imply full SPARQL 1.1 aggregate or expression conformance beyond the supported Janus-QL Core fragment.</p>
+   <h3 class="heading settled" data-level="9.2" id="historical-subquery-evaluation"><span class="secno">9.2. </span><span class="content">Historical-Only Nested Subquery Evaluation</span><a class="self-link" href="#historical-subquery-evaluation"></a></h3>
    <p>A historical-only nested subquery MAY reference only declared <code>ON LOG</code> windows.</p>
    <p>Such a nested subquery is evaluated over the corresponding materialized window graphs <code>G_w(T)</code> for the referenced historical windows. The nested subquery produces a multiset of solution mappings.</p>
    <p>That result multiset is joined back into the surrounding query using the same shared-variable compatibility used for joins among <code>WINDOW</code> blocks.</p>
@@ -2490,7 +2538,7 @@ WINDOW w<c- mi>2</c-> <c- p>{</c-> P<c- mi>2</c-> <c- p>}</c->
 </pre>
    <p>Live-only nested subqueries are not part of Janus-QL Core and MUST be rejected.</p>
    <p>Mixed live-historical nested subqueries are not part of Janus-QL Core and MUST be rejected.</p>
-   <h3 class="heading settled" data-level="8.3" id="rstream-evaluation"><span class="secno">8.3. </span><span class="content">RStream Output</span><a class="self-link" href="#rstream-evaluation"></a></h3>
+   <h3 class="heading settled" data-level="9.3" id="rstream-evaluation"><span class="secno">9.3. </span><span class="content">RStream Output</span><a class="self-link" href="#rstream-evaluation"></a></h3>
    <p>When a query uses <code>REGISTER RStream &lt;output> AS</code>, the processor emits the complete top-level result multiset for each evaluation time <code>T</code> at which the top-level query is evaluated.</p>
    <p><code>IStream</code> and <code>DStream</code> are outside Janus-QL Core.</p>
    <aside class="example" id="example-bb60f297">
@@ -2513,7 +2561,7 @@ WINDOW w<c- mi>2</c-> <c- p>{</c-> P<c- mi>2</c-> <c- p>}</c->
 </pre>
     <p>At evaluation time <code>T</code>, Janus-QL evaluates the first <code>WINDOW</code> block over <code>G_ex:live(T)</code>, evaluates the second <code>WINDOW</code> block over <code>G_ex:hist(T)</code>, and joins the resulting solution mappings on the shared variable <code>?sensor</code>.</p>
    </aside>
-   <h2 class="heading settled" data-level="9" id="historical-subqueries"><span class="secno">9. </span><span class="content">Historical Subqueries</span><a class="self-link" href="#historical-subqueries"></a></h2>
+   <h2 class="heading settled" data-level="10" id="historical-subqueries"><span class="secno">10. </span><span class="content">Historical Subqueries</span><a class="self-link" href="#historical-subqueries"></a></h2>
    <p>In Janus-QL Core, a nested <code>SELECT</code> block MAY appear inside the outer <code>WHERE</code> clause.</p>
    <p>A nested subquery is supported only when every <code>WINDOW</code> referenced inside that nested subquery is a historical <code>ON LOG</code> window.</p>
    <p>Live-only nested subqueries are not part of Janus-QL Core and MUST be rejected.</p>
@@ -2521,9 +2569,9 @@ WINDOW w<c- mi>2</c-> <c- p>{</c-> P<c- mi>2</c-> <c- p>}</c->
    <p>Supported historical-only nested subqueries are lowered to a materialized historical result and joined back into the outer query.</p>
    <p>A supported historical-only nested subquery MAY reference more than one historical window.</p>
    <p>A materialized historical subquery MUST project at least one anchor variable and at least one additional value. A nested historical subquery that projects only one variable MUST be rejected.</p>
-   <h2 class="heading settled" data-level="10" id="evaluation-semantics"><span class="secno">10. </span><span class="content">Evaluation Semantics</span><a class="self-link" href="#evaluation-semantics"></a></h2>
-   <p>The semantics in this section operate over the RDF stream and historical RDF event log data model defined in <a href="#data-model">§ 7 RDF Stream and Log Data Model</a>.</p>
-   <p>The graph-pattern and solution-mapping evaluation translation used by this section is defined in <a href="#evaluation-translation">§ 8 Evaluation Translation</a>.</p>
+   <h2 class="heading settled" data-level="11" id="evaluation-semantics"><span class="secno">11. </span><span class="content">Evaluation Semantics</span><a class="self-link" href="#evaluation-semantics"></a></h2>
+   <p>The semantics in this section operate over the RDF stream and historical RDF event log data model defined in <a href="#data-model">§ 8 RDF Stream and Log Data Model</a>.</p>
+   <p>The graph-pattern and solution-mapping evaluation translation used by this section is defined in <a href="#evaluation-translation">§ 9 Evaluation Translation</a>.</p>
    <p>Live windows are evaluated relative to the live stream schedule associated with the registered or executing query.</p>
    <p>Historical fixed log windows use the explicit <code>[START ... END]</code> bounds given in the corresponding <code>FROM NAMED WINDOW</code> declaration over a historical RDF event log.</p>
    <p>Historical sliding log windows are resolved relative to live evaluation time <code>T</code>.</p>
@@ -2533,8 +2581,8 @@ WINDOW w<c- mi>2</c-> <c- p>{</c-> P<c- mi>2</c-> <c- p>}</c->
    <p>the current Janus implementation resolves the interval as <code>[T - OFFSET, T - OFFSET + RANGE]</code>.</p>
    <p>This specification defines that same interval for this version of Janus-QL Core.</p>
    <p>Supported historical-only nested subqueries are evaluated as a historical materialization step whose result is joined back into the outer query during overall query evaluation.</p>
-   <h2 class="heading settled" data-level="11" id="examples"><span class="secno">11. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h2>
-   <h3 class="heading settled" data-level="11.1" id="valid-examples"><span class="secno">11.1. </span><span class="content">Valid Janus-QL Core Examples</span><a class="self-link" href="#valid-examples"></a></h3>
+   <h2 class="heading settled" data-level="12" id="examples"><span class="secno">12. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h2>
+   <h3 class="heading settled" data-level="12.1" id="valid-examples"><span class="secno">12.1. </span><span class="content">Valid Janus-QL Core Examples</span><a class="self-link" href="#valid-examples"></a></h3>
 <pre class="highlight language-sparql"><c- k>PREFIX</c-> <c- nn>ex</c-><c- p>:</c-> <c- nl>&lt;http://example.org/></c->
 
 REGISTER RStream <c- nn>ex</c-><c- p>:</c-><c- f>output</c-> <c- k>AS</c->
@@ -2634,7 +2682,7 @@ REGISTER RStream <c- nn>ex</c-><c- p>:</c-><c- f>output</c-> <c- k>AS</c->
 <c- p>}</c->
 </pre>
    <p>This is a valid hybrid query with a supported historical-only nested subquery because the nested <code>SELECT</code> references only the declared historical <code>ON LOG</code> window.</p>
-   <h3 class="heading settled" data-level="11.2" id="invalid-examples"><span class="secno">11.2. </span><span class="content">Invalid Janus-QL Core Examples</span><a class="self-link" href="#invalid-examples"></a></h3>
+   <h3 class="heading settled" data-level="12.2" id="invalid-examples"><span class="secno">12.2. </span><span class="content">Invalid Janus-QL Core Examples</span><a class="self-link" href="#invalid-examples"></a></h3>
 <pre class="highlight language-sparql"><c- k>PREFIX</c-> <c- nn>ex</c-><c- p>:</c-> <c- nl>&lt;http://example.org/></c->
 
 <c- k>SELECT</c-> <c- g>?sensor</c-> <c- g>?value</c->
@@ -2798,7 +2846,7 @@ REGISTER RStream <c- nn>ex</c-><c- p>:</c-><c- f>output</c-> <c- k>AS</c->
 <c- p>}</c->
 </pre>
    <p>A Janus-QL Core processor MUST reject this query because the current Janus-QL Core historical sliding constraint requires <code>RANGE &lt;= OFFSET</code>.</p>
-   <h2 class="heading settled" data-level="12" id="limitations"><span class="secno">12. </span><span class="content">Limitations</span><a class="self-link" href="#limitations"></a></h2>
+   <h2 class="heading settled" data-level="13" id="limitations"><span class="secno">13. </span><span class="content">Limitations</span><a class="self-link" href="#limitations"></a></h2>
    <p><code>DEFINE BASELINE</code> and <code>USING BASELINE</code> are not part of the public Janus-QL specification.</p>
    <p>The implementation may still contain legacy compatibility paths and internal baseline-related names. Those implementation artifacts are non-normative and do not define the public language.</p>
    <p>Older implementation paths may still accept historical <code>[START ... END]</code> and <code>[OFFSET ... RANGE ... STEP ...]</code> forms on <code>ON STREAM</code>. This specification does not define those forms as public Janus-QL syntax. In this version, historical windows are defined only over <code>ON LOG</code>.</p>

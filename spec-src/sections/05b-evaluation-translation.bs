@@ -49,9 +49,9 @@ then the corresponding graph-pattern result at evaluation time `T` is:
 Join(EvalGraph(P1, G_w1(T)), EvalGraph(P2, G_w2(T)))
 ```
 
-`FILTER` expressions are evaluated over the solution mappings produced by the surrounding graph pattern, following the supported SPARQL-style expression behavior defined by this specification.
+`FILTER` expressions are evaluated over the solution mappings produced by the surrounding graph pattern, following the supported expression fragment defined in [[#expression-fragment]].
 
-`GROUP BY`, aggregate expressions, and `HAVING` are applied after graph-pattern evaluation over the resulting solution multiset, following the supported SPARQL-style aggregate behavior accepted by the current Janus-QL Core processor. This specification does not imply full SPARQL 1.1 aggregate conformance beyond the supported Janus-QL Core fragment.
+`GROUP BY`, aggregate expressions, and `HAVING` are applied after graph-pattern evaluation over the resulting solution multiset, following the supported aggregate and expression behavior defined by this specification. This specification does not imply full SPARQL 1.1 aggregate or expression conformance beyond the supported Janus-QL Core fragment.
 
 <h3 id="historical-subquery-evaluation">Historical-Only Nested Subquery Evaluation</h3>
 

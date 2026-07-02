@@ -29,6 +29,8 @@ Previous Version: _ORCHESTRATOR_PREVIOUS_BUILD_FULL_LINK_
 
 <pre class="include" path="sections/03a-core-grammar.bs"></pre>
 
+<pre class="include" path="sections/03b-expression-fragment.bs"></pre>
+
 <pre class="include" path="sections/04-window-declarations.bs"></pre>
 
 <pre class="include" path="sections/05-window-blocks.bs"></pre>

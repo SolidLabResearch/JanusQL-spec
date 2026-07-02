@@ -108,7 +108,7 @@ Var ::=
     | "$" Name
 
 Expression ::=
-    /* supported Janus-QL Core SPARQL-style scalar or aggregate expression fragment */
+    /* supported Janus-QL Core expression fragment; see [[#expression-fragment]] */
 ```
 
 Janus-QL Core reuses SPARQL-style lexical forms for `IRIREF`, `PrefixedName`, `Literal`, `Name`, `PrefixName`, and `Var`.
@@ -119,7 +119,7 @@ For this version of the specification:
 * `Timestamp` values are integer millisecond timestamps.
 * The current validated Janus implementation parses both `Duration` and `Timestamp` as non-negative decimal integers.
 
-The `Expression` non-terminal is intentionally left compact. In Janus-QL Core it covers the supported SPARQL-style expression fragment accepted by the current Janus processor in `SELECT`, `FILTER`, and `HAVING`, including aggregate expressions such as `AVG(?v)` and comparison expressions such as `?x > ?y`.
+The `Expression` non-terminal is intentionally left compact. In Janus-QL Core it covers the supported expression fragment summarized in [[#expression-fragment]].
 
 Nested historical subqueries do not introduce their own `FROM NAMED WINDOW` declarations in Janus-QL Core. They reference `WINDOW` names declared by the surrounding top-level query, and every referenced window MUST be a historical `ON LOG` window.
 
