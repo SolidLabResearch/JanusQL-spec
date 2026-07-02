@@ -2,7 +2,7 @@
 
 This repository contains the source files for the Janus-QL specification.
 
-Janus-QL is a query language for expressing queries over live RDF streams and historical RDF event logs in a unified query model. The language is developed alongside Janus, which serves as a reference implementation.
+Janus-QL is an RSP-QL-inspired query language for expressing queries over live RDF streams and historical RDF event logs in a unified query model. It reuses a restricted SPARQL-style `SELECT` and graph-pattern fragment, but it is not a complete RSP-QL implementation and not a complete SPARQL 1.1 implementation. The language is developed alongside Janus, which serves as a reference implementation for the public contract defined in this repository.
 
 ## Repository structure
 

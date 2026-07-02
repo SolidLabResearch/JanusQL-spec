@@ -1,5 +1,7 @@
 <h2 id="evaluation-semantics">Evaluation Semantics</h2>
 
+The semantics in this section operate over the RDF stream and historical RDF event log data model defined in [[#data-model]].
+
 Live windows are evaluated relative to the live stream schedule associated with the registered or executing query.
 
 Historical fixed log windows use the explicit `[START ... END]` bounds given in the corresponding `FROM NAMED WINDOW` declaration.

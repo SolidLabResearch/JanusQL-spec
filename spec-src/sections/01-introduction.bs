@@ -1,6 +1,6 @@
 <h2 id="introduction">Introduction</h2>
 
-Janus-QL is a query language for combining live stream windows with historical log windows in a single query.
+Janus-QL is an RSP-QL-inspired query language for evaluating queries over live RDF streams and historical RDF event logs within a single query.
 
 This specification defines a minimal first public Janus-QL language contract that matches the current validated Janus implementation. It defines only the public query forms that are intended for external users.
 
@@ -12,3 +12,11 @@ This specification describes Janus-QL using:
 * historical-only nested subqueries inside an outer `WHERE`.
 
 This specification does not define legacy baseline syntax as part of the public language.
+
+<h3 id="language-positioning">Language Positioning</h3>
+
+Janus-QL adopts the RSP-QL idea that named windows can be declared over dynamic RDF sources and referenced inside query graph patterns. However, Janus-QL is not a complete implementation of RSP-QL. This specification specializes the named-window model for hybrid live-historical querying by distinguishing live stream windows, declared using `ON STREAM`, from historical log windows, declared using `ON LOG`.
+
+Janus-QL reuses SPARQL-style `SELECT` queries and graph-pattern matching, but this specification defines only the supported Janus-QL fragment. This specification does not define Janus-QL as a complete SPARQL 1.1 extension or as inheriting the whole SPARQL 1.1 feature set.
+
+SPARQL or RSP-QL features that are not explicitly defined in this specification are outside Janus-QL Core. A Janus-QL processor MAY support additional features as implementation extensions, but such behavior is non-normative.

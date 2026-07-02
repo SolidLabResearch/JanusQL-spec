@@ -12,4 +12,4 @@ WINDOW ex:liveWindow {
 
 A `WINDOW <name> { ... }` block MUST refer to a window name declared by a `FROM NAMED WINDOW` clause in the same query.
 
-The graph pattern inside a `WINDOW <name> { ... }` block is evaluated against the window selected by that declaration.
+The graph pattern inside a `WINDOW <name> { ... }` block is evaluated against the window materialization selected by that declaration, as defined in [[#data-model]].

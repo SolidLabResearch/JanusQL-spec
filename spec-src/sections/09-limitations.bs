@@ -8,4 +8,6 @@ Older implementation paths may still accept historical `[START ... END]` and `[O
 
 Live-only nested subqueries and mixed live/historical nested subqueries are not part of this version of Janus-QL.
 
+SPARQL and RSP-QL features that are not explicitly listed in this specification are outside Janus-QL Core. This includes unsupported query forms, result-stream forms, graph operators, and nested-query forms beyond the public syntax defined here.
+
 This specification does not define unsupported future syntax beyond the public forms listed in this document.

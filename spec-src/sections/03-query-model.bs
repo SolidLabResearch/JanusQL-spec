@@ -1,13 +1,14 @@
 <h2 id="query-model">Query Model</h2>
 
-A Janus-QL query supports:
+Janus-QL Core consists of:
 
 * zero or more `PREFIX` declarations;
-* one top-level `SELECT` clause;
-* zero or more `FROM NAMED WINDOW` declarations;
-* one `WHERE` clause;
-* optional top-level `GROUP BY` and `HAVING` clauses; and
-* optional `REGISTER RStream <output> AS` when the query is registered as a live output stream.
+* an optional `REGISTER RStream <output> AS` clause;
+* one top-level `SELECT` query;
+* zero or more `FROM NAMED WINDOW` declarations over `ON STREAM` and `ON LOG` sources;
+* one `WHERE` clause containing `WINDOW <name> { ... }` graph-pattern blocks;
+* optional top-level `GROUP BY` and `HAVING` clauses where supported by this specification; and
+* historical-only nested subqueries where explicitly defined by this specification.
 
 A Janus-QL query MUST contain exactly one top-level `SELECT` clause and exactly one top-level `WHERE` clause.
 
@@ -22,3 +23,5 @@ The public window declaration forms are:
 * `FROM NAMED WINDOW <w> ON STREAM <s> [RANGE <range> STEP <step>]`
 * `FROM NAMED WINDOW <w> ON LOG <l> [START <start> END <end>]`
 * `FROM NAMED WINDOW <w> ON LOG <l> [OFFSET <offset> RANGE <range> STEP <step>]`
+
+The following are outside Janus-QL Core unless explicitly defined in a later version of this specification: full RSP-QL conformance, full SPARQL 1.1 conformance, `IStream`, `DStream`, `CONSTRUCT`, `ASK`, `DESCRIBE`, `SERVICE`, property paths, arbitrary SPARQL subqueries, and mixed live-historical nested subqueries.

@@ -1,0 +1,140 @@
+<h2 id="core-grammar">Janus-QL Core Grammar</h2>
+
+This section gives a compact EBNF-style grammar for the Janus-QL Core surface syntax defined by this specification.
+
+The grammar is intentionally conservative. It describes only the public Janus-QL forms defined by this specification and does not imply support for other SPARQL 1.1 or RSP-QL syntax.
+
+```ebnf
+JanusQLQuery ::=
+    PrefixDecl*
+    RegisterClause?
+    TopLevelSelectQuery
+
+PrefixDecl ::=
+    "PREFIX" PrefixName ":" IRIREF
+
+RegisterClause ::=
+    "REGISTER" "RStream" IRIOrPrefixedName "AS"
+
+TopLevelSelectQuery ::=
+    SelectClause
+    WindowDecl*
+    WhereClause
+    GroupByClause?
+    HavingClause?
+
+SelectClause ::=
+    "SELECT" SelectItem+
+
+SelectItem ::=
+      Var
+    | AliasedExpression
+
+AliasedExpression ::=
+    "(" Expression "AS" Var ")"
+
+WindowDecl ::=
+    "FROM" "NAMED" "WINDOW" WindowName WindowSource WindowSpec
+
+WindowSource ::=
+      "ON" "STREAM" SourceName
+    | "ON" "LOG" SourceName
+
+WindowSpec ::=
+      "[" "RANGE" Duration "STEP" Duration "]"
+    | "[" "START" Timestamp "END" Timestamp "]"
+    | "[" "OFFSET" Duration "RANGE" Duration "STEP" Duration "]"
+
+WhereClause ::=
+    "WHERE" "{" GraphPattern* "}"
+
+GraphPattern ::=
+      WindowBlock
+    | Filter
+    | HistoricalSubquery
+
+WindowBlock ::=
+    "WINDOW" WindowName "{" BasicGraphPatternItem* "}"
+
+BasicGraphPatternItem ::=
+      TriplePattern
+    | Filter
+
+TriplePattern ::=
+    Term Term Term "."
+
+Filter ::=
+    "FILTER" "(" Expression ")"
+
+HistoricalSubquery ::=
+    "{" NestedHistoricalSelectQuery "}"
+
+NestedHistoricalSelectQuery ::=
+    SelectClause
+    WhereClause
+    GroupByClause?
+    HavingClause?
+
+GroupByClause ::=
+    "GROUP" "BY" Var+
+
+HavingClause ::=
+    "HAVING" "(" Expression ")"
+
+Duration ::=
+    NonNegativeInteger
+
+Timestamp ::=
+    NonNegativeInteger
+
+WindowName ::=
+    IRIOrPrefixedName
+
+SourceName ::=
+    IRIOrPrefixedName
+
+IRIOrPrefixedName ::=
+      IRIREF
+    | PrefixedName
+
+Term ::=
+      Var
+    | IRIREF
+    | PrefixedName
+    | Literal
+
+Var ::=
+      "?" Name
+    | "$" Name
+
+Expression ::=
+    /* supported Janus-QL Core SPARQL-style scalar or aggregate expression fragment */
+```
+
+Janus-QL Core reuses SPARQL-style lexical forms for `IRIREF`, `PrefixedName`, `Literal`, `Name`, `PrefixName`, and `Var`.
+
+For this version of the specification:
+
+* `Duration` values are integer millisecond values.
+* `Timestamp` values are integer millisecond timestamps.
+* The current validated Janus implementation parses both `Duration` and `Timestamp` as non-negative decimal integers.
+
+The `Expression` non-terminal is intentionally left compact. In Janus-QL Core it covers the supported SPARQL-style expression fragment accepted by the current Janus processor in `SELECT`, `FILTER`, and `HAVING`, including aggregate expressions such as `AVG(?v)` and comparison expressions such as `?x > ?y`.
+
+Nested historical subqueries do not introduce their own `FROM NAMED WINDOW` declarations in Janus-QL Core. They reference `WINDOW` names declared by the surrounding top-level query, and every referenced window MUST be a historical `ON LOG` window.
+
+<h3 id="core-grammar-validation">Grammar Validation Rules</h3>
+
+The following well-formedness conditions apply to Janus-QL Core queries:
+
+* A live `ON STREAM [RANGE ... STEP ...]` declaration MUST use a `RANGE` greater than `0`.
+* A live `ON STREAM [RANGE ... STEP ...]` declaration MUST use a `STEP` greater than `0`.
+* A fixed historical `ON LOG [START ... END]` declaration MUST use `START < END`.
+* A sliding historical `ON LOG [OFFSET ... RANGE ... STEP ...]` declaration MUST use `OFFSET >= 0`.
+* A sliding historical `ON LOG [OFFSET ... RANGE ... STEP ...]` declaration MUST use a `RANGE` greater than `0`.
+* A sliding historical `ON LOG [OFFSET ... RANGE ... STEP ...]` declaration MUST use a `STEP` greater than `0`.
+* A sliding historical `ON LOG [OFFSET ... RANGE ... STEP ...]` declaration MUST NOT use `RANGE > OFFSET` in this version of the specification.
+* A `WINDOW <name> { ... }` block MUST NOT reference an undeclared window name.
+* A query MUST NOT declare the same window name more than once.
+
+The current validated Janus implementation already documents and tests the `RANGE > OFFSET` rejection for historical sliding log windows, the `ON STREAM` versus `ON LOG` distinction, and rejection of unknown window references. The remaining conditions above define the Janus-QL Core surface-language contract even if a particular processor reports the error during parsing, a later validation phase, or execution planning.
