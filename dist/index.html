@@ -1490,7 +1490,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version d113b2e81, updated Tue Jun 9 14:57:55 2026 -0700" name="generator">
   <link href="_ORCHESTRATOR_CURRENT_BUILD_FULL_LINK_" rel="canonical">
-  <meta content="1e11a480250435c65f18285c97efc569cdf893e8" name="revision">
+  <meta content="b24d023c64884f4355cfe7b97bb8610623805751" name="revision">
   <meta content="dark light" name="color-scheme">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
@@ -2133,7 +2133,7 @@ Parts of this work may be from another specification document.  If so, those par
   <main>
    <h2 class="heading settled" data-level="1" id="introduction"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#introduction"></a></h2>
    <p>Janus-QL is an RSP-QL-inspired query language for evaluating queries over live RDF streams and historical RDF event logs within a single query.</p>
-   <p>This specification defines a minimal first public Janus-QL language contract that matches the current validated Janus implementation. It defines only the public query forms that are intended for external users.</p>
+   <p>This specification defines a minimal first public Janus-QL Core language contract that matches the current validated Janus implementation. It defines only the public query forms that are intended for external users.</p>
    <p>This specification describes Janus-QL using:</p>
    <ul>
     <li data-md>
@@ -2388,7 +2388,7 @@ Parts of this work may be from another specification document.  If so, those par
    </ul>
    <p><code>FILTER</code> expressions restrict the solution mappings produced by the surrounding graph-pattern evaluation.</p>
    <p><code>HAVING</code> expressions restrict grouped results after <code>GROUP BY</code> and aggregate evaluation.</p>
-   <p>The current validated Janus-QL Core examples and tests explicitly cover comparison-style <code>FILTER</code> expressions such as <code>?value > ?historicalAverage</code> and <code>HAVING</code> predicates such as <code>AVG(?value) > ?dayAvgValue</code>.</p>
+   <p>The current validated Janus-QL Core examples and tests explicitly cover comparison-style <code>FILTER</code> expressions such as <code>?value > ?historicalAverage</code>. This specification correspondingly defines a conservative <code>HAVING</code> fragment over grouping variables and aggregate result variables, without claiming broader SPARQL 1.1 expression support.</p>
    <p>Janus-QL Core does not otherwise define full SPARQL 1.1 expression semantics. In particular, this specification does not define the following forms as part of Janus-QL Core unless a later version explicitly adds them:</p>
    <ul>
     <li data-md>

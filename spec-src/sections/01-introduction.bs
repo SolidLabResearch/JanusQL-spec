@@ -2,7 +2,7 @@
 
 Janus-QL is an RSP-QL-inspired query language for evaluating queries over live RDF streams and historical RDF event logs within a single query.
 
-This specification defines a minimal first public Janus-QL language contract that matches the current validated Janus implementation. It defines only the public query forms that are intended for external users.
+This specification defines a minimal first public Janus-QL Core language contract that matches the current validated Janus implementation. It defines only the public query forms that are intended for external users.
 
 This specification describes Janus-QL using:
 

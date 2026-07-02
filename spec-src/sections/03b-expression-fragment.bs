@@ -16,7 +16,7 @@ Janus-QL Core explicitly defines the following expression forms:
 
 `HAVING` expressions restrict grouped results after `GROUP BY` and aggregate evaluation.
 
-The current validated Janus-QL Core examples and tests explicitly cover comparison-style `FILTER` expressions such as `?value > ?historicalAverage` and `HAVING` predicates such as `AVG(?value) > ?dayAvgValue`.
+The current validated Janus-QL Core examples and tests explicitly cover comparison-style `FILTER` expressions such as `?value > ?historicalAverage`. This specification correspondingly defines a conservative `HAVING` fragment over grouping variables and aggregate result variables, without claiming broader SPARQL 1.1 expression support.
 
 Janus-QL Core does not otherwise define full SPARQL 1.1 expression semantics. In particular, this specification does not define the following forms as part of Janus-QL Core unless a later version explicitly adds them:
 
