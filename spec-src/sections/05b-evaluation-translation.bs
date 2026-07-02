@@ -1,0 +1,100 @@
+<h2 id="evaluation-translation">Evaluation Translation</h2>
+
+This section defines a conservative Janus-QL Core evaluation translation in terms of SPARQL-style graph-pattern evaluation over the window materializations defined in [[#data-model]].
+
+For a declared window `w` and evaluation time `T`, let `G_w(T)` denote the materialized RDF graph or quad content exposed by `w`.
+
+For fixed historical windows declared using `ON LOG [START ... END]`, `G_w(T)` is independent of `T`.
+
+For live stream windows declared using `ON STREAM [RANGE ... STEP]`, `G_w(T)` depends on `T` according to the live evaluation schedule.
+
+For historical sliding log windows declared using `ON LOG [OFFSET ... RANGE ... STEP ...]`, `G_w(T)` depends on `T` according to the historical sliding-window semantics defined in [[#evaluation-semantics]].
+
+Let `EvalGraph(P, G)` denote the SPARQL-style evaluation of graph pattern `P` over graph `G`, returning a multiset of solution mappings.
+
+Let two solution mappings be compatible when they assign the same RDF term to every shared variable.
+
+Let `Join(Ω1, Ω2)` denote the SPARQL-style join of two multisets of solution mappings `Ω1` and `Ω2` using compatibility on shared variables.
+
+<h3 id="window-block-evaluation">WINDOW Block Evaluation</h3>
+
+A Janus-QL Core window block of the form:
+
+```sparql
+WINDOW w {
+  P
+}
+```
+
+is evaluated at evaluation time `T` as:
+
+```text
+Eval_T(WINDOW w { P }) = EvalGraph(P, G_w(T))
+```
+
+The result of a `WINDOW` block is therefore a multiset of solution mappings, even though the underlying window materialization has graph-set semantics as defined in [[#data-model]].
+
+When a `WHERE` clause contains multiple `WINDOW` blocks, Janus-QL Core combines their solution multisets using SPARQL-style join over compatible solution mappings.
+
+For example, if a `WHERE` clause contains:
+
+```sparql
+WINDOW w1 { P1 }
+WINDOW w2 { P2 }
+```
+
+then the corresponding graph-pattern result at evaluation time `T` is:
+
+```text
+Join(EvalGraph(P1, G_w1(T)), EvalGraph(P2, G_w2(T)))
+```
+
+`FILTER` expressions are evaluated over the solution mappings produced by the surrounding graph pattern, following the supported SPARQL-style expression behavior defined by this specification.
+
+`GROUP BY`, aggregate expressions, and `HAVING` are applied after graph-pattern evaluation over the resulting solution multiset, following the supported SPARQL-style aggregate behavior accepted by the current Janus-QL Core processor. This specification does not imply full SPARQL 1.1 aggregate conformance beyond the supported Janus-QL Core fragment.
+
+<h3 id="historical-subquery-evaluation">Historical-Only Nested Subquery Evaluation</h3>
+
+A historical-only nested subquery MAY reference only declared `ON LOG` windows.
+
+Such a nested subquery is evaluated over the corresponding historical window materializations `G_w(T)` for the referenced historical windows. The nested subquery produces a multiset of solution mappings.
+
+That result multiset is joined back into the surrounding query using the same shared-variable compatibility used for joins among `WINDOW` blocks.
+
+Accordingly, if an outer pattern produces a multiset `Ω_outer` and a supported nested historical subquery produces a multiset `Ω_hist(T)`, then the combined result is:
+
+```text
+Join(Ω_outer, Ω_hist(T))
+```
+
+Live-only nested subqueries are not part of Janus-QL Core and MUST be rejected.
+
+Mixed live-historical nested subqueries are not part of Janus-QL Core and MUST be rejected.
+
+<h3 id="rstream-evaluation">RStream Output</h3>
+
+When a query uses `REGISTER RStream <output> AS`, the processor emits the complete top-level result multiset for each evaluation time `T` at which the top-level query is evaluated.
+
+`IStream` and `DStream` are outside Janus-QL Core.
+
+<aside class="example">
+  <p>This example is non-normative.</p>
+
+```sparql
+PREFIX ex: <https://example.org/>
+
+SELECT ?sensor ?liveValue ?histValue
+FROM NAMED WINDOW ex:live ON STREAM ex:traffic [RANGE 60000 STEP 30000]
+FROM NAMED WINDOW ex:hist ON LOG ex:traffic [START 0 END 60000]
+WHERE {
+  WINDOW ex:live {
+    ?sensor ex:value ?liveValue .
+  }
+  WINDOW ex:hist {
+    ?sensor ex:value ?histValue .
+  }
+}
+```
+
+  <p>At evaluation time `T`, Janus-QL evaluates the first `WINDOW` block over `G_ex:live(T)`, evaluates the second `WINDOW` block over `G_ex:hist(T)`, and joins the resulting solution mappings on the shared variable `?sensor`.</p>
+</aside>

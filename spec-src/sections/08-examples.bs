@@ -1,6 +1,95 @@
 <h2 id="examples">Examples</h2>
 
-<h3 id="example-live-historical-nested">Live And Historical Query With Nested Historical Subquery</h3>
+<h3 id="valid-examples">Valid Janus-QL Core Examples</h3>
+
+```sparql
+PREFIX ex: <http://example.org/>
+
+REGISTER RStream ex:output AS
+SELECT ?sensor ?value
+FROM NAMED WINDOW ex:liveWindow ON STREAM ex:stream [RANGE 60000 STEP 30000]
+WHERE {
+  WINDOW ex:liveWindow {
+    ?sensor ex:hasValue ?value .
+  }
+}
+```
+
+This is a valid live-only `RStream` query because it uses a supported live `ON STREAM` window and a supported `WINDOW` block over that declaration.
+
+```sparql
+PREFIX ex: <http://example.org/>
+
+SELECT ?sensor ?value
+FROM NAMED WINDOW ex:historicalWindow ON LOG ex:stream [START 0 END 86400000]
+WHERE {
+  WINDOW ex:historicalWindow {
+    ?sensor ex:hasValue ?value .
+  }
+}
+```
+
+This is a valid fixed historical-only query because historical-only execution MAY omit `REGISTER` and the window uses the supported `ON LOG [START ... END]` form.
+
+```sparql
+PREFIX ex: <http://example.org/>
+
+REGISTER RStream ex:output AS
+SELECT ?sensor ?liveValue ?historicalValue
+FROM NAMED WINDOW ex:liveWindow ON STREAM ex:stream [RANGE 60000 STEP 30000]
+FROM NAMED WINDOW ex:historicalWindow ON LOG ex:stream [START 0 END 86400000]
+WHERE {
+  WINDOW ex:liveWindow {
+    ?sensor ex:hasValue ?liveValue .
+  }
+
+  WINDOW ex:historicalWindow {
+    ?sensor ex:hasValue ?historicalValue .
+  }
+}
+```
+
+This is a valid hybrid live plus fixed historical query because it joins two supported `WINDOW` blocks over one live and one historical declaration using the shared variable `?sensor`.
+
+```sparql
+PREFIX ex: <http://example.org/>
+
+REGISTER RStream ex:output AS
+SELECT ?sensor ?value
+FROM NAMED WINDOW ex:liveWindow ON STREAM ex:stream [RANGE 60000 STEP 30000]
+FROM NAMED WINDOW ex:previousHour ON LOG ex:stream [OFFSET 86400000 RANGE 3600000 STEP 30000]
+WHERE {
+  WINDOW ex:liveWindow {
+    ?sensor ex:hasValue ?value .
+  }
+
+  WINDOW ex:previousHour {
+    ?sensor ex:hasValue ?oldValue .
+  }
+}
+```
+
+This is a valid hybrid live plus historical sliding query because it uses the supported historical sliding `ON LOG [OFFSET ... RANGE ... STEP ...]` form with the current validated interval behavior defined elsewhere in this specification.
+
+```sparql
+PREFIX ex: <http://example.org/>
+
+SELECT ?sensor ?historicalAverage
+FROM NAMED WINDOW ex:historicalWindow ON LOG ex:stream [START 0 END 86400000]
+WHERE {
+  {
+    SELECT ?sensor (AVG(?oldValue) AS ?historicalAverage)
+    WHERE {
+      WINDOW ex:historicalWindow {
+        ?sensor ex:hasValue ?oldValue .
+      }
+    }
+    GROUP BY ?sensor
+  }
+}
+```
+
+This is a valid historical-only nested subquery example because the nested `SELECT` references only the declared historical `ON LOG` window.
 
 ```sparql
 PREFIX ex: <http://example.org/>
@@ -28,36 +117,205 @@ WHERE {
 }
 ```
 
-<h3 id="example-historical-only-without-register">Historical-Only Query Without <code>REGISTER</code></h3>
+This is a valid hybrid query with a supported historical-only nested subquery because the nested `SELECT` references only the declared historical `ON LOG` window.
+
+<h3 id="invalid-examples">Invalid Janus-QL Core Examples</h3>
 
 ```sparql
 PREFIX ex: <http://example.org/>
 
 SELECT ?sensor ?value
-FROM NAMED WINDOW ex:historicalWindow ON LOG ex:stream [START 0 END 86400000]
 WHERE {
-  WINDOW ex:historicalWindow {
+  WINDOW ex:missing {
     ?sensor ex:hasValue ?value .
   }
 }
 ```
 
-<h3 id="example-historical-sliding-log-window">Historical Sliding Log Window Declaration</h3>
+A Janus-QL Core processor MUST reject this query because `ex:missing` is not declared by any `FROM NAMED WINDOW` clause in the same query.
+
+```sparql
+PREFIX ex: <http://example.org/>
+
+SELECT ?sensor
+FROM NAMED WINDOW ex:w ON STREAM ex:stream [RANGE 60000 STEP 30000]
+FROM NAMED WINDOW ex:w ON LOG ex:stream [START 0 END 60000]
+WHERE {
+  WINDOW ex:w {
+    ?sensor ex:value ?value .
+  }
+}
+```
+
+A Janus-QL Core processor MUST reject this query because Janus-QL Core does not permit the same window name to be declared more than once.
 
 ```sparql
 PREFIX ex: <http://example.org/>
 
 REGISTER RStream ex:output AS
-SELECT ?sensor ?value
+SELECT ?sensor
 FROM NAMED WINDOW ex:liveWindow ON STREAM ex:stream [RANGE 60000 STEP 30000]
-FROM NAMED WINDOW ex:previousHour ON LOG ex:stream [OFFSET 86400000 RANGE 3600000 STEP 30000]
 WHERE {
-  WINDOW ex:liveWindow {
-    ?sensor ex:hasValue ?value .
-  }
-
-  WINDOW ex:previousHour {
-    ?sensor ex:hasValue ?oldValue .
+  {
+    SELECT ?sensor (AVG(?value) AS ?liveAverage)
+    WHERE {
+      WINDOW ex:liveWindow {
+        ?sensor ex:value ?value .
+      }
+    }
+    GROUP BY ?sensor
   }
 }
 ```
+
+A Janus-QL Core processor MUST reject this query because a supported nested subquery may reference only declared historical `ON LOG` windows.
+
+```sparql
+PREFIX ex: <http://example.org/>
+
+REGISTER RStream ex:output AS
+SELECT ?sensor ?liveValue ?histAverage
+FROM NAMED WINDOW ex:liveWindow ON STREAM ex:stream [RANGE 60000 STEP 30000]
+FROM NAMED WINDOW ex:historicalWindow ON LOG ex:stream [START 0 END 86400000]
+WHERE {
+  {
+    SELECT ?sensor ?liveValue (AVG(?histValue) AS ?histAverage)
+    WHERE {
+      WINDOW ex:liveWindow {
+        ?sensor ex:value ?liveValue .
+      }
+      WINDOW ex:historicalWindow {
+        ?sensor ex:value ?histValue .
+      }
+    }
+    GROUP BY ?sensor ?liveValue
+  }
+}
+```
+
+A Janus-QL Core processor MUST reject this query because mixed live-historical nested subqueries are outside Janus-QL Core.
+
+```sparql
+PREFIX ex: <http://example.org/>
+
+REGISTER IStream ex:output AS
+SELECT ?sensor
+FROM NAMED WINDOW ex:liveWindow ON STREAM ex:stream [RANGE 60000 STEP 30000]
+WHERE {
+  WINDOW ex:liveWindow {
+    ?sensor ex:value ?value .
+  }
+}
+```
+
+A Janus-QL Core processor MUST reject this query because `IStream` is outside Janus-QL Core.
+
+```sparql
+PREFIX ex: <http://example.org/>
+
+REGISTER DStream ex:output AS
+SELECT ?sensor
+FROM NAMED WINDOW ex:liveWindow ON STREAM ex:stream [RANGE 60000 STEP 30000]
+WHERE {
+  WINDOW ex:liveWindow {
+    ?sensor ex:value ?value .
+  }
+}
+```
+
+A Janus-QL Core processor MUST reject this query because `DStream` is outside Janus-QL Core.
+
+```sparql
+PREFIX ex: <http://example.org/>
+
+REGISTER RStream ex:output AS
+SELECT ?sensor
+FROM NAMED WINDOW ex:liveWindow ON STREAM ex:stream [RANGE 60000 STEP 30000]
+WHERE {
+  WINDOW ex:liveWindow {
+    ?sensor ex:connectedTo/ex:value ?value .
+  }
+}
+```
+
+A Janus-QL Core processor MUST reject this query because property paths are outside Janus-QL Core.
+
+```sparql
+PREFIX ex: <http://example.org/>
+
+REGISTER RStream ex:output AS
+SELECT ?sensor
+FROM NAMED WINDOW ex:liveWindow ON STREAM ex:stream [RANGE 60000 STEP 30000]
+WHERE {
+  WINDOW ex:liveWindow {
+    SERVICE <https://example.org/sparql> {
+      ?sensor ex:value ?value .
+    }
+  }
+}
+```
+
+A Janus-QL Core processor MUST reject this query because `SERVICE` is outside Janus-QL Core.
+
+```sparql
+PREFIX ex: <http://example.org/>
+
+SELECT ?sensor
+FROM NAMED WINDOW ex:historicalWindow ON LOG ex:stream [START 1000 END 1000]
+WHERE {
+  WINDOW ex:historicalWindow {
+    ?sensor ex:value ?value .
+  }
+}
+```
+
+A Janus-QL Core processor MUST reject this query because a fixed historical window requires `START < END`.
+
+```sparql
+PREFIX ex: <http://example.org/>
+
+REGISTER RStream ex:output AS
+SELECT ?sensor
+FROM NAMED WINDOW ex:liveWindow ON STREAM ex:stream [RANGE 0 STEP 30000]
+WHERE {
+  WINDOW ex:liveWindow {
+    ?sensor ex:value ?value .
+  }
+}
+```
+
+A Janus-QL Core processor MUST reject this query because a live window requires `RANGE > 0`.
+
+```sparql
+PREFIX ex: <http://example.org/>
+
+REGISTER RStream ex:output AS
+SELECT ?sensor
+FROM NAMED WINDOW ex:liveWindow ON STREAM ex:stream [RANGE 60000 STEP 0]
+WHERE {
+  WINDOW ex:liveWindow {
+    ?sensor ex:value ?value .
+  }
+}
+```
+
+A Janus-QL Core processor MUST reject this query because a live window requires `STEP > 0`.
+
+```sparql
+PREFIX ex: <http://example.org/>
+
+REGISTER RStream ex:output AS
+SELECT ?sensor
+FROM NAMED WINDOW ex:liveWindow ON STREAM ex:stream [RANGE 60000 STEP 30000]
+FROM NAMED WINDOW ex:historicalWindow ON LOG ex:stream [OFFSET 1000 RANGE 1001 STEP 250]
+WHERE {
+  WINDOW ex:liveWindow {
+    ?sensor ex:value ?value .
+  }
+  WINDOW ex:historicalWindow {
+    ?sensor ex:value ?oldValue .
+  }
+}
+```
+
+A Janus-QL Core processor MUST reject this query because the current Janus-QL Core historical sliding constraint requires `RANGE <= OFFSET`.
